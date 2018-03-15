@@ -39,38 +39,76 @@ void Render3D::Start()
 
 void Render3D::Update()
 {
-
+	//printf("Render 3D Update \n");
 	// Calcul le shader : Postion camera, lumières, position objet et lumière
 	m_material->SetMaterialToRender();
 	
-
+	//Draw triangle  
 
 
 	//--------- Ajouter l'attribut des position sur les vertex-----------
 
 
-	//TODO à remplir
+	//fprintf(stdout, "Draw!\n");
+	//On applique l'ID d'attribut de vertex à 0. Dans le shader on peur le récupérer avec "location".
+	glEnableVertexAttribArray(0);//Ouverture edtion buffer sur l'attribut ID = 0. On décide que cela correspond au couleur des vertex.
+	glBindBuffer(GL_ARRAY_BUFFER, m_mesh->GetVertexArrayID());//Choix du buffer
+	glVertexAttribPointer(
+		0, // Attribuer un layer ==> pour shader. 0 est un choix arbitraire
+		3, // size
+		GL_FLOAT, //type
+		GL_FALSE, // normalized 
+		0, // stride
+		(void*)0 //Array buffer offset
+	);
 
 
-	//--------- Ajouter l'attribut des normals sur les vertex-----------
+	//--------- Ajouter l'attribut des couleurs sur les vertex-----------
 
 
-	//TODO a remplir 
+	glEnableVertexAttribArray(1);//Ouverture edtion buffer sur l'attribut ID = 0. On décide que cela correspond au couleur des vertex.
+	glBindBuffer(GL_ARRAY_BUFFER, m_mesh->GetNormalsArrayID());//Choix du buffer
+	glVertexAttribPointer(
+		1, // Attribuer un layer ==> pour shader. 0 est un choix arbitraire
+		3, // size
+		GL_FLOAT, //type
+		GL_FALSE, // normalized 
+		0, // stride
+		(void*)0 //Array buffer offset
+	);
 
 
-	// Ajouter l'attribut UV par vertex
-		
-	
-	//TODO a remplir 
+	// Ajouter l'attribut UV
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, m_mesh->GetUVArrayID());
+	glVertexAttribPointer(
+		2,
+		2,//Size ==> coordonnees 2 dimensions pour les UV 
+		GL_FLOAT,
+		GL_FALSE,
+		0,
+		(void*)0
+	);
 
 	// Ajouter l'attribut vertex color
+/*	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, m_mesh->GetVertexColorArrayID());
+	glVertexAttribPointer(
+		3,
+		3,//Size ==> coordonnees 3 dimensions pour les couleurs 
+		GL_FLOAT,
+		GL_FALSE,
+		0,
+		(void*)0
+	);
+	*/
 
-
-	//Dessiner les triangles
+	//On a 12 triangle et on doit mettre le nombre de vectices à dessiner
 	glDrawArrays(GL_TRIANGLES, 0,m_mesh->GetVertexArraySize());
-
-	//Ferme les attributs 
-	//TODO à remplir
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	//glDisableVertexAttribArray(3);
 
 	//Remarque : Chaques sommets est écrit 2 fois, cela peut prendre de la place.
 

@@ -54,28 +54,29 @@ bool Mesh::LoadObjFromFile(std::string path)
 
 void Mesh::LoadDataToGPU()
 {
+	//Creer un vertexbuffer et lui assigne un ID 
+	glGenBuffers(1, &vertexArrayID);
+	// Dit de suivre ce vertexbuffer 
+	glBindBuffer(GL_ARRAY_BUFFER, vertexArrayID);
+	//Donne l'array de vertex à OpenGL
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(glm::vec3), &m_vertices[0], GL_STATIC_DRAW);
 
-	//Définir, récupérer l'ID du vertex buffer 
-	//Envoyer les data dans le vertex buffer 
+	//Creer un vertexbuffer et lui assigne un ID 
+	glGenBuffers(1, &uvArrayID);
+	// Dit de suivre ce vertexbuffer 
+	glBindBuffer(GL_ARRAY_BUFFER, uvArrayID);
+	//Donne l'array de vertex à OpenGL
+	glBufferData(GL_ARRAY_BUFFER, m_uvs.size() * sizeof(glm::vec2), &m_uvs[0], GL_STATIC_DRAW);
+
+	//Creer un vertexbuffer et lui assigne un ID 
+	glGenBuffers(1, &normalsArrayID);
+	// Dit de suivre ce vertexbuffer 
+	glBindBuffer(GL_ARRAY_BUFFER, normalsArrayID);
+	//Donne l'array de vertex à OpenGL
+	glBufferData(GL_ARRAY_BUFFER, m_normals.size() * sizeof(glm::vec3), &m_normals[0], GL_STATIC_DRAW);
 	
-	//TODO a remplir
-
-	//Définir, récupérer l'ID de l'UV buffer 
-	//Envoyer les data dans l'UV buffer buffer 
-
-	//TODO a remplir
-
-
-	//Définir, récupérer l'ID du normals buffer 
-	//Envoyer les data dans le normals buffer 
-
-	//TODO a remplir
-
-	//Définir, récupérer l'ID du color vertex buffer 
-	//Envoyer les data dans le color vertex buffer 
-
-	//TODO a remplir
 	
+	//TODO make vertex colors
 
 }
 
@@ -84,6 +85,6 @@ void Mesh::UnloadDataToGPU()
 	glDeleteBuffers(1, &vertexArrayID);
 	glDeleteBuffers(1, &uvArrayID);
 	glDeleteBuffers(1, &normalsArrayID);
-	glDeleteBuffers(1, &vertexColorArrayID);
-
+	//glDeleteBuffers(1, &vertexColorArrayID);
+//	glDeleteVertexArrays(1, &vertexArrayID);
 }
