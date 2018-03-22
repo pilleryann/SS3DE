@@ -90,6 +90,32 @@ void Render3D::Update()
 		(void*)0
 	);
 
+	// Ajouter l'attribut tangents
+	glEnableVertexAttribArray(4);
+	glBindBuffer(GL_ARRAY_BUFFER, m_mesh->GetTangentsArrayID());
+	glVertexAttribPointer(
+		4,
+		3,//Size ==> coordonnees 3 dimensions pour les tangents 
+		GL_FLOAT,
+		GL_FALSE,
+		0,
+		(void*)0
+	);
+
+
+	// Ajouter l'attribut bitangents
+	glEnableVertexAttribArray(5);
+	glBindBuffer(GL_ARRAY_BUFFER, m_mesh->GetBitangentsArrayID());
+	glVertexAttribPointer(
+		5,
+		3,//Size ==> coordonnees 3 dimensions pour les bitangents 
+		GL_FLOAT,
+		GL_FALSE,
+		0,
+		(void*)0
+	);
+
+
 	// Ajouter l'attribut vertex color
 /*	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, m_mesh->GetVertexColorArrayID());
@@ -109,6 +135,8 @@ void Render3D::Update()
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 	//glDisableVertexAttribArray(3);
+	glDisableVertexAttribArray(4);
+	glDisableVertexAttribArray(5);
 
 	//Remarque : Chaques sommets est écrit 2 fois, cela peut prendre de la place.
 

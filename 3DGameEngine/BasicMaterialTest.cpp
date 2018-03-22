@@ -51,7 +51,7 @@ void BasicMaterialTest::SetMaterialToRender()
 	glm::mat4 modelMatrix = m_gameObject->GetTransform()->GetMatrixTransformation();
 	mvp = mvp * modelMatrix;
 	glm::mat4 viewMatrix = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0, 1, 0));
-
+	glm::mat3 modelView3x3 = glm::mat3(viewMatrix*modelMatrix);
 
 	//Envoie la matrice mvp dans le shader. Dans ce cas, c'est pour appliquer une projetion et déplacement de la caméra.
 
@@ -60,6 +60,7 @@ void BasicMaterialTest::SetMaterialToRender()
 	//Envoie divers informations pour les lumières dans le shader 
 	glUniformMatrix4fv(matrixM_ID, 1, GL_FALSE, &modelMatrix[0][0]);
 	glUniformMatrix4fv(matrixV_ID, 1, GL_FALSE, &viewMatrix[0][0]);
+	glUniformMatrix3fv(matrixMV3x3_ID,1, GL_FALSE, &modelView3x3[0][0]);
 	glUniform3fv(lightWorldPosition_ID, 1, &lightPosition[0]);
 	glUniform3fv(lightColor_ID, 1, &lightColor[0]);
 	glUniform1f(lightPower_ID, lightPower);
@@ -76,6 +77,14 @@ void BasicMaterialTest::InitMaterialIntern()
 
 	TextureID = glGetUniformLocation(shaderID, "myTextureSampler");
 	glUniform1i(TextureID, m_texture->GetTexureID());
+
+
+	//Normals map 
+
+	m_normalsMap = new TextureEngine3D("Datas/normals.DDS");
+
+	normalMapID = glGetUniformLocation(shaderID, "NormalTextureSampler");
+	glUniform1i(normalMapID, m_normalsMap->GetTexureID());
 
 
 	lightWorldPosition_ID = glGetUniformLocation(shaderID, "LightPosition_worldspace");

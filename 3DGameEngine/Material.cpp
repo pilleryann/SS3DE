@@ -45,6 +45,8 @@ void Material::InitMaterial()
 	matrixM_ID = glGetUniformLocation(shaderID, "M");
 	matrixV_ID = glGetUniformLocation(shaderID, "V");
 
+	matrixMV3x3_ID = glGetUniformLocation(shaderID, "matrixMV3x3");
+
 
 	InitMaterialIntern();
  

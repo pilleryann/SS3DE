@@ -23,7 +23,9 @@ private :
 	GLuint lightColor_ID ;
 	GLuint lightPower_ID ;
 	GLuint TextureID;
+	GLuint normalMapID; 
 	TextureEngine3D * m_texture;
+	TextureEngine3D * m_normalsMap;
 
 	float lightPower;
 	glm::vec3 lightColor;

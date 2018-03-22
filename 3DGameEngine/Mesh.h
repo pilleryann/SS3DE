@@ -21,6 +21,8 @@ public:
 	GLuint GetVertexColorArrayID();
 	GLuint GetNormalsArrayID();
 	GLuint GetUVArrayID();
+	GLuint GetTangentsArrayID();
+	GLuint GetBitangentsArrayID();
 
 	int GetVertexArraySize();
 
@@ -34,12 +36,17 @@ private :
 	std::vector<glm::vec3> m_vertices;
 	std::vector<glm::vec2> m_uvs;
 	std::vector<glm::vec3> m_normals;
+	std::vector<glm::vec3> m_tangents;
+	std::vector<glm::vec3> m_bitangents;
 
 
 	GLuint vertexArrayID;
 	GLuint vertexColorArrayID;
 	GLuint normalsArrayID;
 	GLuint uvArrayID;
+
+	GLuint tangentsArrayID;
+	GLuint bitangentsArrayID;
 
 
 

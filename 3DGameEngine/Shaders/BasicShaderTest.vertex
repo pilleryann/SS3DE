@@ -7,6 +7,12 @@ layout(location=1) in vec3 vertexNormal_modelspace;
 //Recupere le layer définit dans le "glVertexAttribPointer" defini a 1 
 layout(location=2) in vec2 vertexUV;
 
+layout(location=4) in vec3 vertexTangent_modelspace;
+
+layout(location=5) in vec3 vertexBitangent_modelspace;
+
+
+
 //Definir la sortie
 out vec2 UV;
 
@@ -16,6 +22,9 @@ out vec3 LightDirection_cameraspace;
 
 out vec3 EyeDirection_cameraspace;
 
+out vec3 LightDirection_tangentspace;
+out vec3 EyeDirection_tangentspace;
+
 //Valeur reste constante pour tout le mesh. Cette valeur est charge depuis le code 
 //du moteur.
 uniform mat4 MVP;
@@ -24,6 +33,8 @@ uniform mat4 MVP;
 uniform mat4 M;
 
 uniform mat4 V;
+
+uniform mat3 matrixMV3x3;
 
 //uniform vec4 LightPosition_worldspace;
 
@@ -55,6 +66,19 @@ void main(){
 
 	Normal_cameraspace = (V * M * vec4(vertexNormal_modelspace,0)).xyz;  // Only correct if ModelMatrix does not scale the model ! Use its inverse transpose if not.
 
+
+	//------ Normals Map Calcul ----------------------//
+
+
+	vec3 vertexNormal_cameraSpace_3x3 = normalize(matrixMV3x3 * vertexNormal_modelspace);
+	vec3 vertexTangent_cameraSpace = normalize(matrixMV3x3 * vertexTangent_modelspace);
+	vec3 vertexBitangent_cameraSpace = normalize(matrixMV3x3 * vertexBitangent_modelspace);
+
+	//L'utilisation de la transposition est plus rapide qu'une inversion de matrice. Du coup on devra corriger des
+	//vecteurs dasn le fragment shader.
+	mat3 TBN = transpose(mat3(vertexTangent_cameraSpace,vertexBitangent_cameraSpace,vertexNormal_cameraSpace_3x3));
+	LightDirection_tangentspace = TBN * LightDirection_cameraspace;
+    EyeDirection_tangentspace =  TBN * EyeDirection_cameraspace;
 
 	//La couleur de chaque vertex vont etre interpolle
 	//pour produir une couleur pour chaque fragment
