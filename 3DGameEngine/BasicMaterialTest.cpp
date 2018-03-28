@@ -46,12 +46,13 @@ void BasicMaterialTest::SetMaterialToRender()
 	glm::vec3 cameraTarget = glm::vec3(0, 0, 0);
 
 	//glm::mat4 mvp = CalculateModelViewProjection(45, 800, 600, 0.1f, 1000, cameraPosition, cameraTarget);
-	glm::mat4 mvp = m_gameObject->GetEngine()->GetMainCamera()->GetTransformView();
+	glm::mat4 mvp = m_gameObject->GetEngine()->GetMainCamera()->GetTransformViewProjection();
 	//glm::mat4 modelMatrix = CalculateModelMatrix(glm::vec4(0, 1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
 	glm::mat4 modelMatrix = m_gameObject->GetTransform()->GetMatrixTransformation();
 	mvp = mvp * modelMatrix;
-	glm::mat4 viewMatrix = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0, 1, 0));
+	glm::mat4 viewMatrix = m_gameObject->GetEngine()->GetMainCamera()->GetView();
 	glm::mat3 modelView3x3 = glm::mat3(viewMatrix*modelMatrix);
+	//glm::mat3 modelView3x3 = glm::mat3(modelMatrix);
 
 	//Envoie la matrice mvp dans le shader. Dans ce cas, c'est pour appliquer une projetion et déplacement de la caméra.
 

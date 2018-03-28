@@ -6,6 +6,12 @@
 #include "Utils\SimpleObjLoader.h"
 #include "GraphicsUtils.h"
 
+#include <assimp\Importer.hpp>
+#include <assimp\types.h>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+
 Mesh::Mesh(std::string path)
 {
 	LoadObjFromFile(path);
@@ -53,6 +59,11 @@ GLuint Mesh::GetBitangentsArrayID()
 	return bitangentsArrayID;
 }
 
+GLuint Mesh::GetIndicesArrayID()
+{
+	return indicesArrayID;
+}
+
 int Mesh::GetVertexArraySize()
 {
 	return m_vertices.size();
@@ -60,7 +71,109 @@ int Mesh::GetVertexArraySize()
 
 bool Mesh::LoadObjFromFile(std::string path)
 {
-	return SimpleObjLoader::loadOBJ(path.c_str(),m_vertices,m_uvs,m_normals);
+	Assimp::Importer importer;
+	
+	//const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices | aiProcess_CalcTangentSpace);
+	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	LoadVertexArray(scene);
+	LoadNormalsArray(scene);
+	LoadUVArray(scene);
+	LoadTangentsArray(scene);
+	LoadBitangentsArray(scene);
+	//LoadIndicesArray(scene);
+	
+	
+
+	
+
+
+
+	return true;
+	//return SimpleObjLoader::loadOBJ(path.c_str(),m_vertices,m_uvs,m_normals);
+}
+
+void Mesh::LoadVertexArray(const aiScene * scene)
+{
+	aiVector3D* verticesSceneArray = scene->mMeshes[0]->mVertices;
+	int numberOfVerticesInScene = scene->mMeshes[0]->mNumVertices;
+	for (int i = 0; i < numberOfVerticesInScene; i++) {
+		glm::vec3 vectice;
+		aiVector3D aiVec = verticesSceneArray[i];
+		vectice.x = aiVec.x;
+		vectice.y = aiVec.y;
+		vectice.z = aiVec.z;
+		m_vertices.push_back(vectice);
+	}
+}
+
+void Mesh::LoadUVArray(const aiScene * scene)
+{
+	//Get UVs 
+	aiVector3D* uvSceneArray = scene->mMeshes[0]->mTextureCoords[0];
+	int numberOfUVsInScene = scene->mMeshes[0]->mNumVertices;
+	for (int i = 0; i < numberOfUVsInScene; i++) {
+		glm::vec2 uv;
+		aiVector3D aiVec = uvSceneArray[i];
+		uv.x = aiVec.x;
+		uv.y = aiVec.y;
+		m_uvs.push_back(uv);
+	}
+}
+
+void Mesh::LoadNormalsArray(const aiScene * scene)
+{
+	aiVector3D* normalSceneArray = scene->mMeshes[0]->mNormals;
+	int numberOfNormalsInScene = scene->mMeshes[0]->mNumVertices;
+	for (int i = 0; i < numberOfNormalsInScene; i++) {
+		glm::vec3 normal;
+		aiVector3D aiVec = normalSceneArray[i];
+		normal.x = aiVec.x;
+		normal.y = aiVec.y;
+		normal.z = aiVec.z;
+		m_normals.push_back(normal);
+	}
+}
+
+void Mesh::LoadIndicesArray(const aiScene * scene)
+{
+	aiFace* facesSceneArray = scene->mMeshes[0]->mFaces;
+	int numberOfFacesInScene = scene->mMeshes[0]->mNumFaces;
+	for (int i = 0; i < numberOfFacesInScene; i++) {
+		glm::vec3 vectice;
+		aiFace face = facesSceneArray[i];
+		unsigned int nbrIndicePeerFace = face.mNumIndices;
+		for (unsigned int j = 0; j < nbrIndicePeerFace; j++) {
+			m_indices.push_back(face.mIndices[j]);
+		}	
+	}
+}
+
+void Mesh::LoadTangentsArray(const aiScene * scene)
+{
+	aiVector3D* tangentsSceneArray = scene->mMeshes[0]->mTangents;
+	int numberOfVerticesInScene = scene->mMeshes[0]->mNumVertices;
+	for (int i = 0; i < numberOfVerticesInScene; i++) {
+		glm::vec3 tangent;
+		aiVector3D aiVec = tangentsSceneArray[i];
+		tangent.x = aiVec.x;
+		tangent.y = aiVec.y;
+		tangent.z = aiVec.z;
+		m_tangents.push_back(tangent);
+	}
+}
+
+void Mesh::LoadBitangentsArray(const aiScene * scene)
+{
+	aiVector3D* tangentsSceneArray = scene->mMeshes[0]->mBitangents;
+	int numberOfVerticesInScene = scene->mMeshes[0]->mNumVertices;
+	for (int i = 0; i < numberOfVerticesInScene; i++) {
+		glm::vec3 bitangent;
+		aiVector3D aiVec = tangentsSceneArray[i];
+		bitangent.x = aiVec.x;
+		bitangent.y = aiVec.y;
+		bitangent.z = aiVec.z;
+		m_bitangents.push_back(bitangent);
+	}
 }
 
 void Mesh::LoadDataToGPU()
@@ -87,7 +200,7 @@ void Mesh::LoadDataToGPU()
 	glBufferData(GL_ARRAY_BUFFER, m_normals.size() * sizeof(glm::vec3), &m_normals[0], GL_STATIC_DRAW);
 
 	//Génère les tangentes et bittangentes
-	GraphicsUtils::computeTangentBasis(m_vertices, m_uvs, m_normals, m_tangents, m_bitangents);
+	//GraphicsUtils::computeTangentBasis(m_vertices, m_uvs, m_normals, m_tangents, m_bitangents);
 	//Assigner et loader les tangentes et bitangentes dans le GPU
 	glGenBuffers(1, &tangentsArrayID);
 	glBindBuffer(GL_ARRAY_BUFFER, tangentsArrayID);

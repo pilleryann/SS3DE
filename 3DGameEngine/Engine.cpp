@@ -7,6 +7,9 @@
 #include "Transform3D.h"
 #include "Camera.h"
 
+#include "BasicMaterialTest.h"
+#include "Mesh.h"
+
 #include <SFML/Graphics.hpp>
 
 
@@ -103,7 +106,7 @@ int Engine::CreateScene()
 	cameraGo->AddComponent(camera);
 	cameraGo->GetTransform()->SetPosition(glm::vec3(0, 0, -6));
 	cameraGo->GetTransform()->SetRotation(glm::vec3(0, 0,0));
-	camera->LookAt(glm::vec3(5, 1, 1), glm::vec3(0, 1, 0));
+	
 	gameObjects.push_back(cameraGo);
 
 
@@ -129,8 +132,10 @@ int Engine::CreateScene()
 	go3->AddComponent(render3);
 	go3->GetTransform()->SetScale(glm::vec3(3.0f, 3.0f, 3.0f));
 	go3->GetTransform()->SetPosition(glm::vec3(2, 2, 0));
-	go3->GetTransform()->SetRotation(glm::vec3(0, 20, 0));
+	go3->GetTransform()->SetRotation(glm::vec3(-60, 180, 0));
 	gameObjects.push_back(go3);
+
+	camera->LookAt(go3->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
 
 	for (int i = 0;i< gameObjects.size(); i++) {
 		gameObjects[i]->Start();

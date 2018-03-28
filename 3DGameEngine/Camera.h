@@ -22,10 +22,12 @@ public:
 
 	void DefineAsMainCamera();
 
-	glm::mat4 GetTransformView();
+	glm::mat4 GetTransformViewProjection();
+	glm::mat4 GetView();
 
 
 private :
+	glm::mat4 m_viewMatrix;
 	glm::vec2 m_screenSize;
 	float m_minClippingPane;
 	float m_maxClippingPane;

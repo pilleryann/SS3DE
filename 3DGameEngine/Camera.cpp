@@ -11,7 +11,7 @@ Camera::Camera(GameObject * gameObject,glm::vec2 screenSize,float minClippingPan
 	m_minClippingPane = minClippingPane;
 	m_maxClippingPane = maxClippingPane;
 	m_fieldOfView = fieldOfView;
-
+	m_viewMatrix = glm::scale(glm::vec3(1, 1, 1));
 	DefineAsMainCamera();
 }
 
@@ -35,35 +35,26 @@ void Camera::LookAt(glm::vec3 targetPosition,glm::vec3 axisRotation)
 
 
 	glm::vec3  transformPosition = m_gameObject->GetTransform()->GetPosition();
-	glm::vec3 direction = targetPosition - transformPosition;
-	glm::normalize(direction);
+//	glm::vec3 direction = targetPosition - transformPosition;
+	//glm::normalize(direction);
 
-	glm::mat4 matLookAt = glm::lookAt(glm::vec3(0,0,0), direction, axisRotation);
+	m_viewMatrix = glm::lookAt(transformPosition, targetPosition, axisRotation);
 
 	
 
-	//matLookAt = matLookAt * glm::mat4(1.0f);
-
-
-	//glm::vec4 directionLook = matLookAt * glm::vec4(0, 0, 1,0);
+	/*
+	
 	glm::quat orientation = glm::toQuat(matLookAt);
-	//orientation = glm::conjugate(orientation);
+	orientation = glm::conjugate(orientation);
 	glm::vec3 newRotation = glm::eulerAngles(orientation);
 	newRotation = glm::degrees(newRotation);
-	/*newRotation.x = 0;
-	newRotation.z = 0;*/
-	newRotation = -newRotation;
+
 	printf("Orientation  : (%f,%f,%f,%f)\n", orientation.x, orientation.y, orientation.z, orientation.w);
 	printf("NewRotation  : (%f,%f,%f)\n", newRotation.x, newRotation.y, newRotation.z);
-	/*glm::decompose(matLookAt, scale, orientation, translation, skew, perspective);
-	//TODO à verifier
-	orientation = glm::conjugate(orientation);//PArait que ça le met comme il faut 
-	glm::vec3 newRotation = glm::eulerAngles(orientation);
-	printf("Orientation  : (%f,%f,%f,%f)\n", orientation.x, orientation.y, orientation.z,orientation.w);
-	printf("NewRotation  : (%f,%f,%f)\n", newRotation.x, newRotation.y, newRotation.z);
-	newRotation = glm::degrees(newRotation);*/
+
 
 	m_gameObject->GetTransform()->SetRotation(newRotation);
+	*/
 }
 
 void Camera::SetScreenSize(float width, float height)
@@ -92,26 +83,32 @@ void Camera::DefineAsMainCamera()
 	m_gameObject->GetEngine()->SetMainCamera(this);
 }
 
-glm::mat4 Camera::GetTransformView()
+glm::mat4 Camera::GetTransformViewProjection()
 {
 	glm::mat4 Projection = glm::perspective(glm::radians(m_fieldOfView), (float)m_screenSize.x / (float)m_screenSize.y, m_minClippingPane, m_maxClippingPane);
-	//glm::mat4 View = glm::lookAt(cameraPosition, lookAtPosition, glm::vec3(0, 1, 0));
+	
+
 
 	//Get informations from the transform
-	glm::vec3  transformRotation = m_gameObject->GetTransform()->GeRotation();
+/*	glm::vec3  transformRotation = - (m_gameObject->GetTransform()->GeRotation());
 	glm::vec3  transformPosition = m_gameObject->GetTransform()->GetPosition();
 	glm::mat4 rotation = glm::eulerAngleXYZ(glm::radians(transformRotation.x), glm::radians(transformRotation.y), glm::radians(transformRotation.z));
 	glm::mat4 translate = glm::translate(transformPosition);
 
 
-	glm::mat4 View = rotation * translate ;
-	glm::mat4 Model = glm::mat4(0.1f);
+	glm::mat4 View = rotation * translate ;*/
+	glm::mat4 Model = glm::mat4(1.0f);
 
 	//S'applique dans l'orde Model puis View puis Projection
-	glm::mat4 mvp = Projection * View * Model;
+	glm::mat4 mvp = Projection * m_viewMatrix * Model;
 
 
 	return mvp;//Retourne une copie de la matrice 
+}
+
+glm::mat4 Camera::GetView()
+{
+	return m_viewMatrix;
 }
 
 
