@@ -28,6 +28,7 @@ void main() {
 		vec3 n = normalize(texture( NormalTextureSampler, UV ).rgb*2.0 - 1.0);//Normal tangenteSpace
 
 		//vec3 n = normalize(Normal_cameraspace);
+		//vec3 l = normalize(LightDirection_cameraspace);
 		vec3 l = normalize(LightDirection_tangentspace);
 
 		// Cosine of the angle between the normal and the light direction,
