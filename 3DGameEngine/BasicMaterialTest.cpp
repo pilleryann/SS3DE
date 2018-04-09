@@ -18,6 +18,12 @@ BasicMaterialTest::BasicMaterialTest(GameObject * gameObject):Material(gameObjec
 	
 }
 
+BasicMaterialTest::BasicMaterialTest(GameObject * gameObject, std::string albedoPath, std::string normalPath):BasicMaterialTest(gameObject)
+{
+	m_albedoPath = albedoPath;
+	m_normalPath = normalPath;
+}
+
 BasicMaterialTest::~BasicMaterialTest()
 {
 	printf("Basic material destructor \n");
@@ -74,7 +80,7 @@ void BasicMaterialTest::InitMaterialIntern()
 {
 	printf("Basic material initialisation Intern \n");
 
-	m_texture = new TextureEngine3D("Datas/singe.DDS");
+	m_texture = new TextureEngine3D(m_albedoPath);
 
 	TextureID = glGetUniformLocation(shaderID, "myTextureSampler");
 	glUniform1i(TextureID, m_texture->GetTexureID());
@@ -82,7 +88,7 @@ void BasicMaterialTest::InitMaterialIntern()
 
 	//Normals map 
 
-	m_normalsMap = new TextureEngine3D("Datas/normals.DDS");
+	m_normalsMap = new TextureEngine3D(m_normalPath);
 
 	normalMapID = glGetUniformLocation(shaderID, "NormalTextureSampler");
 	glUniform1i(normalMapID, m_normalsMap->GetTexureID());

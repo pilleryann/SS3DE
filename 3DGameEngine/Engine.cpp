@@ -111,7 +111,7 @@ int Engine::CreateScene()
 
 
 	GameObject * go = new GameObject(this, "First object");
-	Render3D * render = new Render3D(go);
+	Render3D * render = new Render3D(go,"Datas/cube.obj");
 	go->AddComponent(render);
 	go->GetTransform()->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 	go->GetTransform()->SetPosition(glm::vec3(5, 1, 1));
@@ -120,7 +120,7 @@ int Engine::CreateScene()
 
 
 	GameObject * go2 = new GameObject(this, "Second object");
-	Render3D * render2 = new Render3D(go2);
+	Render3D * render2 = new Render3D(go2, "Datas/cube.obj");
 	go2->AddComponent(render2);
 	go2->GetTransform()->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 	go2->GetTransform()->SetPosition(glm::vec3(0, 0, 0));
@@ -128,9 +128,9 @@ int Engine::CreateScene()
 	gameObjects.push_back(go2);
 
 	GameObject * go3 = new GameObject(this, "Third object");
-	Render3D * render3 = new Render3D(go3);
+	Render3D * render3 = new Render3D(go3, "Datas/cube.obj");
 	go3->AddComponent(render3);
-	go3->GetTransform()->SetScale(glm::vec3(3.0f, 3.0f, 3.0f));
+	go3->GetTransform()->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
 	go3->GetTransform()->SetPosition(glm::vec3(2, 2, 0));
 	go3->GetTransform()->SetRotation(glm::vec3(-60, 180, 0));
 	gameObjects.push_back(go3);

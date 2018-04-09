@@ -7,11 +7,11 @@
 
 
 
-Render3D::Render3D(GameObject * gameObject):Component(gameObject)
+Render3D::Render3D(GameObject * gameObject, std::string path):Component(gameObject)
 {
 	printf("Constructor Render3D\n");
 
-	m_mesh = new Mesh("Datas/singe.obj");
+	m_mesh = new Mesh(path);
 	BasicMaterialTest * basicMaterial = new BasicMaterialTest(m_gameObject);
 	m_material = basicMaterial;
 }
@@ -20,7 +20,6 @@ Render3D::Render3D(GameObject * gameObject, Mesh * mesh, Material *material): Co
 {
 	m_mesh = mesh;
 	m_material = material;
-	
 }
 
 Render3D::~Render3D()

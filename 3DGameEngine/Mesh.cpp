@@ -15,7 +15,6 @@
 Mesh::Mesh(std::string path)
 {
 	LoadObjFromFile(path);
-	
 }
 
 

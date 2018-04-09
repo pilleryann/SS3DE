@@ -11,6 +11,7 @@ class BasicMaterialTest :
 {
 public:
 	BasicMaterialTest(GameObject * gameObject);
+	BasicMaterialTest(GameObject * gameObject, std::string albedoPath, std::string normalPath);
 	~BasicMaterialTest();
 
 
@@ -26,6 +27,9 @@ private :
 	GLuint normalMapID; 
 	TextureEngine3D * m_texture;
 	TextureEngine3D * m_normalsMap;
+
+	std::string m_albedoPath;
+	std::string m_normalPath;
 
 	float lightPower;
 	glm::vec3 lightColor;
