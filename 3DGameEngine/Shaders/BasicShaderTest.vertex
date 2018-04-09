@@ -25,6 +25,11 @@ out vec3 EyeDirection_cameraspace;
 out vec3 LightDirection_tangentspace;
 out vec3 EyeDirection_tangentspace;
 
+out vec4 Position_worldspace;
+out  vec4 LightPosition_worldspaceF;
+
+
+
 //Valeur reste constante pour tout le mesh. Cette valeur est charge depuis le code 
 //du moteur.
 uniform mat4 MVP;
@@ -49,7 +54,7 @@ void main(){
 	//---- Calcule des lumieres -------------
 
 	// Position du vertex dans le monde
-	// Position_worldspace = ( M * vec4(vertexPosition_modelspace,1)).xyz;
+	// Position_worldspace = ( M * vec4(vertexPosition_modelspace,1)).xyzw;
 
 	//Creation du vecteur venant du vertex a la camera, dans l'espace camera.
 	// Dans lespace de la camera, la camera est à la position (0,0,0)
@@ -84,5 +89,7 @@ void main(){
 	//pour produir une couleur pour chaque fragment
 	
 	UV = vec2(vertexUV.x,-vertexUV.y);
+
+	LightPosition_worldspaceF = vec4(LightPosition_worldspace,1);
 
 }

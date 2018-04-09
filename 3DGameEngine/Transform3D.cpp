@@ -70,7 +70,7 @@ void Transform3D::SetScale(glm::vec3 scale)
 
 glm::mat4 Transform3D::GetMatrixTransformation()
 {
-	glm::mat4 TranslationMat4 = glm::translate(glm::mat4(), m_position);
+	glm::mat4 TranslationMat4 = glm::translate(m_position);
 	glm::mat4 ScaleMat4 = glm::scale(m_scale);
 //	glm::vec3 rotationAxis = glm::vec3(rotationQuaternion.x, rotationQuaternion.y, rotationQuaternion.z);
 	//glm::mat4 RotationMat4 = glm::rotate(rotationQuaternion.w, rotationAxis);

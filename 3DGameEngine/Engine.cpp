@@ -104,12 +104,26 @@ int Engine::CreateScene()
 	GameObject * cameraGo = new GameObject(this,"Main Camera");
 	Camera * camera = new Camera(cameraGo,glm::vec2(800,600));
 	cameraGo->AddComponent(camera);
-	cameraGo->GetTransform()->SetPosition(glm::vec3(0, 0, -6));
+	cameraGo->GetTransform()->SetPosition(glm::vec3(0, 0, 3));
 	cameraGo->GetTransform()->SetRotation(glm::vec3(0, 0,0));
 	
 	gameObjects.push_back(cameraGo);
 
+	
+	GameObject * go = new GameObject(this, "First object");
+	BasicMaterialTest * mat = new BasicMaterialTest(go, "Datas/StoneWallTextures/StoneWallCOLOR.png", "Datas/StoneWallTextures/StoneWallNORM.png");
+//	BasicMaterialTest * mat = new BasicMaterialTest(go,albedoPath, normalPath);
+	Mesh * mesh = new Mesh("Datas/Sphere3.obj");
+	Render3D * render = new Render3D(go,mesh,mat);
+	go->AddComponent(render);
+	go->GetTransform()->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
+	go->GetTransform()->SetPosition(glm::vec3(0, 0,0));
+	go->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
+	gameObjects.push_back(go);
 
+	camera->LookAt(go->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
+
+	/*
 	GameObject * go = new GameObject(this, "First object");
 	Render3D * render = new Render3D(go);
 	go->AddComponent(render);
@@ -118,7 +132,7 @@ int Engine::CreateScene()
 	go->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
 	gameObjects.push_back(go);
 
-
+	
 	GameObject * go2 = new GameObject(this, "Second object");
 	Render3D * render2 = new Render3D(go2);
 	go2->AddComponent(render2);
@@ -136,7 +150,7 @@ int Engine::CreateScene()
 	gameObjects.push_back(go3);
 
 	camera->LookAt(go3->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
-
+	*/
 	for (int i = 0;i< gameObjects.size(); i++) {
 		gameObjects[i]->Start();
 	}

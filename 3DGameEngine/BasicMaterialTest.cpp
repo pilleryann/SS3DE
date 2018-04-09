@@ -11,11 +11,17 @@ BasicMaterialTest::BasicMaterialTest(GameObject * gameObject):Material(gameObjec
 {
 	printf("Basic Material constructor. \n");
 
-	 lightPosition = glm::vec3(4, 3, 3);
-	 lightPower = 40.0f;
+	 lightPosition = glm::vec3(2, 0,5);
+	 lightPower = 10.0f;
 	 lightColor = glm::vec3(1, 1, 1);
 
 	
+}
+
+BasicMaterialTest::BasicMaterialTest(GameObject * gameObject, std::string albedoPath, std::string normalPath):BasicMaterialTest(gameObject)
+{
+	m_albedoPath = albedoPath;
+	m_normalPath = normalPath;
 }
 
 BasicMaterialTest::~BasicMaterialTest()
@@ -23,6 +29,7 @@ BasicMaterialTest::~BasicMaterialTest()
 	printf("Basic material destructor \n");
 	glDeleteProgram(shaderID);
 	delete m_texture;
+	delete m_normalsMap;
 }
 
 
@@ -42,16 +49,19 @@ void BasicMaterialTest::SetMaterialToRender()
 	//Applique le model matrix, le view matrix et enifin la projetction matrix. Le tout dans l'ordre. 
 	//Atttention : Avec les multiplication cela inverse l'ordre des application  :
 	// projectionMatix*viewMatrix*modelMatrix
-	glm::vec3 cameraPosition = glm::vec3(4, 2, 3);
-	glm::vec3 cameraTarget = glm::vec3(0, 0, 0);
+
 
 	//glm::mat4 mvp = CalculateModelViewProjection(45, 800, 600, 0.1f, 1000, cameraPosition, cameraTarget);
-	glm::mat4 mvp = m_gameObject->GetEngine()->GetMainCamera()->GetTransformViewProjection();
-	//glm::mat4 modelMatrix = CalculateModelMatrix(glm::vec4(0, 1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
-	glm::mat4 modelMatrix = m_gameObject->GetTransform()->GetMatrixTransformation();
-	mvp = mvp * modelMatrix;
+	glm::mat4 projectionMatrix = m_gameObject->GetEngine()->GetMainCamera()->GetTransformViewProjection();
 	glm::mat4 viewMatrix = m_gameObject->GetEngine()->GetMainCamera()->GetView();
-	glm::mat3 modelView3x3 = glm::mat3(viewMatrix*modelMatrix);
+	glm::mat4 modelMatrix = m_gameObject->GetTransform()->GetMatrixTransformation();
+	glm::mat4 modelViewMatrix = viewMatrix * modelMatrix;
+	glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
+	//glm::mat4 modelMatrix = CalculateModelMatrix(glm::vec4(0, 1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
+	
+	//mvp = mvp * modelMatrix;
+	
+	glm::mat3 modelView3x3 = glm::mat3(modelViewMatrix);
 	//glm::mat3 modelView3x3 = glm::mat3(modelMatrix);
 
 	//Envoie la matrice mvp dans le shader. Dans ce cas, c'est pour appliquer une projetion et déplacement de la caméra.
@@ -74,7 +84,7 @@ void BasicMaterialTest::InitMaterialIntern()
 {
 	printf("Basic material initialisation Intern \n");
 
-	m_texture = new TextureEngine3D("Datas/singe.DDS");
+	m_texture = new TextureEngine3D(m_albedoPath);
 
 	TextureID = glGetUniformLocation(shaderID, "myTextureSampler");
 	glUniform1i(TextureID, m_texture->GetTexureID());
@@ -82,7 +92,7 @@ void BasicMaterialTest::InitMaterialIntern()
 
 	//Normals map 
 
-	m_normalsMap = new TextureEngine3D("Datas/normals.DDS");
+	m_normalsMap = new TextureEngine3D(m_normalPath);
 
 	normalMapID = glGetUniformLocation(shaderID, "NormalTextureSampler");
 	glUniform1i(normalMapID, m_normalsMap->GetTexureID());

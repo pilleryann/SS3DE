@@ -1,5 +1,8 @@
 #include "TextureEngine3D.h"
-
+#include <iostream>
+#include <SFML\Main.hpp>
+#include <SFML\System.hpp>
+#include <SFML\Graphics.hpp>
 
 
 #define FOURCC_DXT1 0x31545844 // Equivalent to "DXT1" in ASCII
@@ -7,10 +10,12 @@
 #define FOURCC_DXT5 0x35545844 // Equivalent to "DXT5" in ASCII
 
 
-TextureEngine3D::TextureEngine3D(std::string path)
+TextureEngine3D::TextureEngine3D(const std::string path,bool isDDSTexture)
 {
-	
-	texture_ID =  loadDDS(path.c_str());
+	if (isDDSTexture)
+		texture_ID = loadDDS(path.c_str());
+	else
+		texture_ID = loadImage(path);
 }
 
 TextureEngine3D::~TextureEngine3D()
@@ -105,6 +110,39 @@ GLuint TextureEngine3D::loadDDS(const char * imagepath)
 	}
 	delete buffer;
 
+
+	return textureID;
+}
+
+GLuint TextureEngine3D::loadImage(const std::string imagePath)
+{
+	sf::Image imageLoaded;
+
+
+
+
+	if (!imageLoaded.loadFromFile(imagePath)) {
+	//	printf("Error, can't load texture : %s",imagePath);
+		std::cout << "Error, can't load texture : " << imagePath << std::endl;
+		return -1;
+	}
+
+	const sf::Uint8 * data = imageLoaded.getPixelsPtr();
+	const sf::Vector2u imageSize = imageLoaded.getSize();
+
+	// Create one OpenGL texture
+	GLuint textureID;
+	glGenTextures(1, &textureID);
+
+	// "Bind" the newly created texture : all future texture functions will modify this texture
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	// Give the image to OpenGL
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageSize.x, imageSize.y, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glGenerateMipmap(GL_TEXTURE_2D);
 
 	return textureID;
 }
