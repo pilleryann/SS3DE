@@ -117,7 +117,7 @@ int Engine::CreateScene()
 	Render3D * render = new Render3D(go,mesh,mat);
 	go->AddComponent(render);
 	go->GetTransform()->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
-	go->GetTransform()->SetPosition(glm::vec3(0, 0,0));
+	go->GetTransform()->SetPosition(glm::vec3(0, 2,0));
 	go->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
 	gameObjects.push_back(go);
 
