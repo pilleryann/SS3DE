@@ -12,7 +12,7 @@ class Render3D :
 	public Component
 {
 public:
-	Render3D(GameObject * gameObject);
+	Render3D(GameObject * gameObject, std::string path);
 	Render3D(GameObject * gameObject,Mesh * mesh, Material * material);
 	~Render3D();
 
