@@ -110,7 +110,7 @@ int Engine::CreateScene()
 	gameObjects.push_back(cameraGo);
 
 
-	GameObject * go = new GameObject(this, "First object");
+	/*GameObject * go = new GameObject(this, "First object");
 	Render3D * render = new Render3D(go,"Datas/cube.obj");
 	go->AddComponent(render);
 	go->GetTransform()->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
@@ -125,14 +125,16 @@ int Engine::CreateScene()
 	go2->GetTransform()->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 	go2->GetTransform()->SetPosition(glm::vec3(0, 0, 0));
 	go2->GetTransform()->SetRotation(glm::vec3(90, 0, 0));
-	gameObjects.push_back(go2);
+	gameObjects.push_back(go2);*/
 
 	GameObject * go3 = new GameObject(this, "Third object");
-	Render3D * render3 = new Render3D(go3, "Datas/cube.obj");
+	Mesh* mesh = new Mesh("Datas/Minecraft_Tree/Minecraft_Tree.obj");
+	BasicMaterialTest* material = new BasicMaterialTest(go3,"Datas/Minecraft_Tree/tex/leaf.png","Datas/Minecraft_Tree/tex/wood_NORMALS.png");
+	Render3D * render3 = new Render3D(go3,mesh,material);
 	go3->AddComponent(render3);
-	go3->GetTransform()->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
-	go3->GetTransform()->SetPosition(glm::vec3(2, 2, 0));
-	go3->GetTransform()->SetRotation(glm::vec3(-60, 180, 0));
+	go3->GetTransform()->SetScale(glm::vec3(5.0f, 5.0f, 5.0f));
+	go3->GetTransform()->SetPosition(glm::vec3(0, 0, 0));
+	go3->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
 	gameObjects.push_back(go3);
 
 	camera->LookAt(go3->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));

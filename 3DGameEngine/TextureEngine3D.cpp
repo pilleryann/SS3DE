@@ -9,8 +9,8 @@
 
 TextureEngine3D::TextureEngine3D(std::string path)
 {
-	
-	texture_ID =  loadDDS(path.c_str());
+	texture_ID = loadPng(path);
+	//texture_ID =  loadDDS(path.c_str());
 }
 
 TextureEngine3D::~TextureEngine3D()
@@ -23,6 +23,33 @@ GLuint TextureEngine3D::GetTexureID()
 	return texture_ID;
 }
 
+
+GLuint TextureEngine3D::loadPng(std::string pngPath)
+{
+	sf::Image texture;
+	if (!texture.loadFromFile(pngPath))
+	{
+		std::cout << "png file can't be load\n";
+	}
+
+	int sizeX = texture.getSize().x;
+	int sizeY = texture.getSize().y;
+	const sf::Uint8* data = texture.getPixelsPtr();
+
+	// Create one OpenGL texture
+	GLuint textureID;
+	glGenTextures(1, &textureID);
+
+	// "Bind" the newly created texture : all future texture functions will modify this texture
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	// Give the image to OpenGL
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sizeX, sizeY, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	return textureID;
+}
 
 GLuint TextureEngine3D::loadDDS(const char * imagepath)
 {

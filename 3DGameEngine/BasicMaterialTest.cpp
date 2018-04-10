@@ -11,7 +11,7 @@ BasicMaterialTest::BasicMaterialTest(GameObject * gameObject):Material(gameObjec
 {
 	printf("Basic Material constructor. \n");
 
-	 lightPosition = glm::vec3(4, 3, 3);
+	 lightPosition = glm::vec3(5, 5, 5);
 	 lightPower = 40.0f;
 	 lightColor = glm::vec3(1, 1, 1);
 
