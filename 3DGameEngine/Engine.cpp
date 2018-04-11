@@ -58,7 +58,7 @@ int Engine::Init()
 	settings.minorVersion = 5;
 	
 
- window = new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, settings);
+	window = new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, settings);
 
 	
 	window->setVerticalSyncEnabled(true);

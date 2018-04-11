@@ -52,11 +52,13 @@ void BasicMaterialTest::SetMaterialToRender()
 	glUseProgram(shaderID);//Bind shader
 
 							//Créer la position de la lumière
-
-
-
-
-
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i(TextureID, /*GL_TEXTURE*/0);
+	glBindTexture(GL_TEXTURE_2D, m_texture->GetTexureID());
+	
+	glActiveTexture(GL_TEXTURE1);
+	glUniform1i(normalMapID, /*GL_TEXTURE*/1);
+	glBindTexture(GL_TEXTURE_2D, m_normalsMap->GetTexureID());
 	//Applique le model matrix, le view matrix et enifin la projetction matrix. Le tout dans l'ordre. 
 	//Atttention : Avec les multiplication cela inverse l'ordre des application  :
 	// projectionMatix*viewMatrix*modelMatrix
@@ -99,13 +101,17 @@ void BasicMaterialTest::InitMaterialIntern()
 
 	TextureID = glGetUniformLocation(shaderID, "myTextureSampler");
 	
-	glUniform1i(TextureID, m_texture->GetTexureID());
+
 
 	//Normals map 
 
 	m_normalsMap = new TextureEngine3D(m_normalPath);
 
 	normalMapID = glGetUniformLocation(shaderID, "NormalTextureSampler");
+	
+	
+	glUniform1i(TextureID, m_texture->GetTexureID());
+	
 	glUniform1i(normalMapID, m_normalsMap->GetTexureID());
 
 
