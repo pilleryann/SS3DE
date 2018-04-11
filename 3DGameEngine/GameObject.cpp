@@ -66,13 +66,14 @@ void GameObject::AddComponent(Component * component)
 {
 	printf("Coponent type : %s \n", typeid(*component).name());
 	//printf("Render 3D  type : %s \n", typeid(m_render3D).name());
-
-	m_render3D = dynamic_cast<Render3D*>(component);
+	Render3D * render3D = dynamic_cast<Render3D*>(component);	
 	
-	if (m_render3D !=NULL) {
+	if (render3D !=NULL) {
 		printf("Coponent type is super coool : %s \n", typeid(*component).name());
+		m_render3D = render3D;
 		return;
 	}
+	//Can't add transform in the components list. It' created in the contructor of component.
 	Transform3D * transfromTest = dynamic_cast<Transform3D*>(component);
 	if (transfromTest !=NULL) {
 		return;

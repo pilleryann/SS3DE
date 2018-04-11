@@ -133,8 +133,10 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsUtils.h" />
+    <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="ObjectMovement.h" />
     <ClInclude Include="PBRMaterial.h" />
     <ClInclude Include="PhongMaterial.h" />
     <ClInclude Include="Render3D.h" />
@@ -153,8 +155,10 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsUtils.cpp" />
+    <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="ObjectMovement.cpp" />
     <ClCompile Include="PBRMaterial.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Render3D.cpp" />

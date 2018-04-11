@@ -6,14 +6,25 @@
 #include "Transform3D.h" 
 #include "Camera.h"
 #include "Engine.h"
+#include "LightComponent.h"
 
 BasicMaterialTest::BasicMaterialTest(GameObject * gameObject):Material(gameObject,"Shaders/BasicShaderTest.vertex","Shaders/BasicShaderTest.fragment")
 {
 	printf("Basic Material constructor. \n");
 
+	std::vector<LightComponent*> * lightsList = m_gameObject->GetEngine()->getLightsInScene();
+
+	LightComponent* light = lightsList->at(0);
+	lightPosition = light->getPosition();
+	lightPower = light->getLightPower();
+	lightColor = light->getLightColor();
+
+	/*
 	 lightPosition = glm::vec3(2, 0,5);
 	 lightPower = 10.0f;
 	 lightColor = glm::vec3(1, 1, 1);
+
+	 */
 
 	
 }
@@ -87,8 +98,8 @@ void BasicMaterialTest::InitMaterialIntern()
 	m_texture = new TextureEngine3D(m_albedoPath);
 
 	TextureID = glGetUniformLocation(shaderID, "myTextureSampler");
+	
 	glUniform1i(TextureID, m_texture->GetTexureID());
-
 
 	//Normals map 
 

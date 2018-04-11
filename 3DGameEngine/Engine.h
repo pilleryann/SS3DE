@@ -9,6 +9,7 @@
 
 class Camera;
 class GameObject;
+class LightComponent;
 
 class Engine
 {
@@ -22,11 +23,15 @@ public:
 	int End();
 	Camera * GetMainCamera();
 	void SetMainCamera(Camera * camera);
+	std::vector<LightComponent*>* getLightsInScene();
+	
+
 private :
 	sf::Window * window;
 	Camera * m_mainCamera;
 	std::vector<GameObject*> gameObjects;
 	GLuint VertexArrayID;
+	std::vector<LightComponent*> m_lightsList;
 
 };
 #endif

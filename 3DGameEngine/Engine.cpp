@@ -6,6 +6,9 @@
 #include "Render3D.h"
 #include "Transform3D.h"
 #include "Camera.h"
+#include "ObjectMovement.h"
+
+#include "LightComponent.h"
 
 #include "BasicMaterialTest.h"
 #include "Mesh.h"
@@ -109,6 +112,17 @@ int Engine::CreateScene()
 	
 	gameObjects.push_back(cameraGo);
 
+
+	GameObject * lightObject = new GameObject(this, "Point light");
+	LightComponent * lightComponent = new LightComponent(lightObject, glm::vec3(2, 0, 3), 10, glm::vec3(1, 1, 1));
+	lightObject->AddComponent(lightComponent);
+	BasicMaterialTest * mat2 = new BasicMaterialTest(lightObject, "Datas/DirtTexture/Dirt_004_COLOR.JPG", "Datas/DirtTexture/Dirt_004_NORM.jpg");
+	//	BasicMaterialTest * mat = new BasicMaterialTest(go,albedoPath, normalPath);
+	Mesh * mesh2 = new Mesh("Datas/Sphere3.obj");
+	Render3D * render2 = new Render3D(lightObject, mesh2, mat2);
+	lightObject->AddComponent(render2);
+	gameObjects.push_back(lightObject);
+
 	
 	GameObject * go = new GameObject(this, "First object");
 	BasicMaterialTest * mat = new BasicMaterialTest(go, "Datas/StoneWallTextures/StoneWallCOLOR.png", "Datas/StoneWallTextures/StoneWallNORM.png");
@@ -116,12 +130,28 @@ int Engine::CreateScene()
 	Mesh * mesh = new Mesh("Datas/Sphere3.obj");
 	Render3D * render = new Render3D(go,mesh,mat);
 	go->AddComponent(render);
-	go->GetTransform()->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
-	go->GetTransform()->SetPosition(glm::vec3(0, 2,0));
+	go->GetTransform()->SetScale(glm::vec3(1, 1,1));
+	go->GetTransform()->SetPosition(glm::vec3(0, 0,0));
 	go->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
+	ObjectMovement * objMov = new ObjectMovement(go);
+	go->AddComponent(objMov);
+
 	gameObjects.push_back(go);
 
 	camera->LookAt(go->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
+
+	/*
+	GameObject * go3 = new GameObject(this, "Third object");
+	BasicMaterialTest * mat3 = new BasicMaterialTest(go3, "Datas/StoneWallTextures/StoneWallCOLOR.png", "Datas/StoneWallTextures/StoneWallNORM.png");
+	//	BasicMaterialTest * mat = new BasicMaterialTest(go,albedoPath, normalPath);
+	Mesh * mesh3 = new Mesh("Datas/Sphere3.obj");
+	Render3D * render3 = new Render3D(go3,mesh3,mat3);
+	go3->AddComponent(render3);
+	go3->GetTransform()->SetScale(glm::vec3(2,2,2));
+	go3->GetTransform()->SetPosition(glm::vec3(-2, 0, 1));
+	go3->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
+	gameObjects.push_back(go3);
+	*/
 
 	/*
 	GameObject * go = new GameObject(this, "First object");
@@ -232,5 +262,10 @@ int Engine::End()
 	void Engine::SetMainCamera(Camera * camera)
 	{
 		m_mainCamera = camera;
+	}
+
+	std::vector<LightComponent*>* Engine::getLightsInScene()
+	{
+		return &m_lightsList;
 	}
 
