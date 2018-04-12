@@ -20,9 +20,7 @@ public:
 
 private :
 
-	GLuint lightWorldPosition_ID ;
-	GLuint lightColor_ID ;
-	GLuint lightPower_ID ;
+
 	GLuint TextureID;
 	GLuint normalMapID; 
 	TextureEngine3D * m_texture;
@@ -31,9 +29,7 @@ private :
 	std::string m_albedoPath;
 	std::string m_normalPath;
 
-	float lightPower;
-	glm::vec3 lightColor;
-	glm::vec3 lightPosition;
+
 protected :
 	 void InitMaterialIntern() override;
 

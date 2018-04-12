@@ -11,6 +11,16 @@ LightComponent::LightComponent(GameObject * gameObject, glm::vec3 position, floa
 	m_lightColor = lightColor;
 	//Add automatically the light in scene
 	gameObject->GetEngine()->getLightsInScene()->push_back(this);
+
+	//Créer/loader un mesh de type lumière 
+
+	//Créer un nouveau matérial pour les lumière 
+
+	//Créer un render 3D  assignre le mesh et le material 
+
+	//Ajouter le render 3d dans le GameObject
+
+
 }
 
 LightComponent::~LightComponent()

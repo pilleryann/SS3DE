@@ -15,6 +15,7 @@ public:
 	~Material();
 
 	void InitMaterial();
+	void UpdateCameraTransform();
 	virtual void SetMaterialToRender() = 0;
 
 
@@ -29,6 +30,18 @@ protected :
 	GLuint matrixM_ID;
 	GLuint matrixV_ID;
 	GLuint matrixMV3x3_ID;
+
+
+	//Light 
+
+	glm::vec3 lightColor;
+	glm::vec3 lightPosition;
+	GLuint lightWorldPosition_ID;
+	GLuint lightColor_ID;
+	GLuint lightPower_ID;
+
+
+	float lightPower;
 
 
 

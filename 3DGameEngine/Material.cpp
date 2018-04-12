@@ -14,6 +14,12 @@
 
 #include <GL/glew.h>
 
+#include "LightComponent.h"
+#include "GameObject.h"
+#include "Engine.h"
+#include "Camera.h"
+#include "Transform3D.h"
+
 
 
 
@@ -24,6 +30,14 @@ Material::Material(GameObject * gameObject,std::string vertexShaderPath,std::str
 {
 	LoadShader(vertexShaderPath, fragmentShaderPath);
 	m_gameObject = gameObject;
+
+	std::vector<LightComponent*> * lightsList = m_gameObject->GetEngine()->getLightsInScene();
+
+	LightComponent* light = lightsList->at(0);
+	lightPosition = light->getPosition();
+	lightPower = light->getLightPower();
+	lightColor = light->getLightColor();
+
 
 }
 
@@ -47,9 +61,44 @@ void Material::InitMaterial()
 
 	matrixMV3x3_ID = glGetUniformLocation(shaderID, "matrixMV3x3");
 
+	lightWorldPosition_ID = glGetUniformLocation(shaderID, "LightPosition_worldspace");
+	lightColor_ID = glGetUniformLocation(shaderID, "lightColor");
+	lightPower_ID = glGetUniformLocation(shaderID, "LightPower");
+
 
 	InitMaterialIntern();
  
+}
+
+void Material::UpdateCameraTransform()
+{ 
+
+	
+	//glm::mat4 mvp = CalculateModelViewProjection(45, 800, 600, 0.1f, 1000, cameraPosition, cameraTarget);
+	glm::mat4 projectionMatrix = m_gameObject->GetEngine()->GetMainCamera()->GetTransformViewProjection();
+	glm::mat4 viewMatrix = m_gameObject->GetEngine()->GetMainCamera()->GetView();
+	glm::mat4 modelMatrix = m_gameObject->GetTransform()->GetMatrixTransformation();
+	glm::mat4 modelViewMatrix = viewMatrix * modelMatrix;
+	glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
+	//glm::mat4 modelMatrix = CalculateModelMatrix(glm::vec4(0, 1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
+
+	//mvp = mvp * modelMatrix;
+
+	glm::mat3 modelView3x3 = glm::mat3(modelViewMatrix);
+	//glm::mat3 modelView3x3 = glm::mat3(modelMatrix);
+
+	//Envoie la matrice mvp dans le shader. Dans ce cas, c'est pour appliquer une projetion et déplacement de la caméra.
+
+	glUniformMatrix4fv(matrixMVP_ID, 1, GL_FALSE, &mvp[0][0]);
+
+	//Envoie divers informations pour les lumières dans le shader 
+	glUniformMatrix4fv(matrixM_ID, 1, GL_FALSE, &modelMatrix[0][0]);
+	glUniformMatrix4fv(matrixV_ID, 1, GL_FALSE, &viewMatrix[0][0]);
+	glUniformMatrix3fv(matrixMV3x3_ID, 1, GL_FALSE, &modelView3x3[0][0]);
+	glUniform3fv(lightWorldPosition_ID, 1, &lightPosition[0]);
+	glUniform3fv(lightColor_ID, 1, &lightColor[0]);
+	glUniform1f(lightPower_ID, lightPower);
+	
 }
 
 void Material::LoadShader(std::string vertex_file_path, std::string fragment_file_path)
