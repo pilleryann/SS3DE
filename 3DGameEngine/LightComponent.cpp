@@ -1,6 +1,9 @@
 #include "LightComponent.h"
 #include "GameObject.h"
 #include "Transform3D.h"
+#include "Mesh.h"
+#include "VisualLightMaterial.h"
+#include "Render3D.h"
 
 
 
@@ -13,13 +16,16 @@ LightComponent::LightComponent(GameObject * gameObject, glm::vec3 position, floa
 	gameObject->GetEngine()->getLightsInScene()->push_back(this);
 
 	//Créer/loader un mesh de type lumière 
+	Mesh * mesh = new Mesh("Datas/Sphere3.obj");
 
 	//Créer un nouveau matérial pour les lumière 
+	VisualLightMaterial * mat = new VisualLightMaterial(m_gameObject, this);
 
 	//Créer un render 3D  assignre le mesh et le material 
+	Render3D *  render = new Render3D(m_gameObject, mesh, mat);
 
 	//Ajouter le render 3d dans le GameObject
-
+	m_gameObject->AddComponent(render);
 
 }
 

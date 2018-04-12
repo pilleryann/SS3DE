@@ -15,6 +15,7 @@
     </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{930c952a-69cc-4d6e-913f-45aa27bbafb2}</UniqueIdentifier>
+      <Extensions>.vertex;.fragment</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +79,9 @@
     <ClInclude Include="ObjectMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VisualLightMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -137,6 +141,9 @@
     <ClCompile Include="ObjectMovement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VisualLightMaterial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="3DGameEngine.rc">
@@ -148,6 +155,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\BasicShaderTest.vertex">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\VisualLight.fragment">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

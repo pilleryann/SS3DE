@@ -114,13 +114,12 @@ int Engine::CreateScene()
 
 
 	GameObject * lightObject = new GameObject(this, "Point light");
-	LightComponent * lightComponent = new LightComponent(lightObject, glm::vec3(2, 0, 3), 10, glm::vec3(1, 1, 1));
+	LightComponent * lightComponent = new LightComponent(lightObject, glm::vec3(2, 2,1), 10, glm::vec3(1, 1, 1));
 	lightObject->AddComponent(lightComponent);
-	BasicMaterialTest * mat2 = new BasicMaterialTest(lightObject, "Datas/DirtTexture/Dirt_004_COLOR.JPG", "Datas/DirtTexture/Dirt_004_NORM.jpg");
-	//	BasicMaterialTest * mat = new BasicMaterialTest(go,albedoPath, normalPath);
+	/*BasicMaterialTest * mat2 = new BasicMaterialTest(lightObject, "Datas/DirtTexture/Dirt_004_COLOR.JPG", "Datas/DirtTexture/Dirt_004_NORM.jpg");
 	Mesh * mesh2 = new Mesh("Datas/Sphere3.obj");
 	Render3D * render2 = new Render3D(lightObject, mesh2, mat2);
-	lightObject->AddComponent(render2);
+	lightObject->AddComponent(render2);*/
 	gameObjects.push_back(lightObject);
 
 	
@@ -137,9 +136,9 @@ int Engine::CreateScene()
 	go->AddComponent(objMov);
 
 	gameObjects.push_back(go);
-
+	
 	camera->LookAt(go->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
-
+	//camera->LookAt(glm::vec3(0,0,0), glm::vec3(0, 3, 0));
 	/*
 	GameObject * go3 = new GameObject(this, "Third object");
 	BasicMaterialTest * mat3 = new BasicMaterialTest(go3, "Datas/StoneWallTextures/StoneWallCOLOR.png", "Datas/StoneWallTextures/StoneWallNORM.png");

@@ -1,0 +1,24 @@
+#version 450 core
+//Il faut recuperer les coordonnees UV 
+in vec2 UV;
+
+
+
+
+out vec3 color;
+
+uniform vec3 lightColor;
+
+
+
+
+void main() {
+
+		
+		
+		color = lightColor;
+		
+
+		
+
+}
