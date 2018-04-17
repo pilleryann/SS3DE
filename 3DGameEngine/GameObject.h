@@ -28,7 +28,7 @@ public:
 	Engine * GetEngine();
 	Transform3D * GetTransform();
 
-private : 
+protected : 
 	Engine * m_engine;
 	Render3D * m_render3D;
 	Transform3D * m_transform;

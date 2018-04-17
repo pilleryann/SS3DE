@@ -14,12 +14,14 @@ Render3D::Render3D(GameObject * gameObject, std::string path):Component(gameObje
 	m_mesh = new Mesh(path);
 	BasicMaterialTest * basicMaterial = new BasicMaterialTest(m_gameObject);
 	m_material = basicMaterial;
+	m_isNoDepthMode = false;
 }
 
-Render3D::Render3D(GameObject * gameObject, Mesh * mesh, Material *material): Component(gameObject)
+Render3D::Render3D(GameObject * gameObject, Mesh * mesh, Material *material,bool isNoDepthMode): Component(gameObject)
 {
 	m_mesh = mesh;
 	m_material = material;
+	m_isNoDepthMode = isNoDepthMode;
 }
 
 Render3D::~Render3D()
@@ -40,6 +42,8 @@ void Render3D::Update()
 {
 	//printf("Render 3D Update \n");
 	// Calcul le shader : Postion camera, lumières, position objet et lumière
+	if (m_isNoDepthMode)
+		glDepthMask(GL_FALSE);
 	m_material->SetMaterialToRender();
 	
 	//Draw triangle  
@@ -136,7 +140,8 @@ void Render3D::Update()
 	//glDisableVertexAttribArray(3);
 	glDisableVertexAttribArray(4);
 	glDisableVertexAttribArray(5);
-
+	if (m_isNoDepthMode)
+		glDepthMask(GLU_TRUE);
 	//Remarque : Chaques sommets est écrit 2 fois, cela peut prendre de la place.
 
 }

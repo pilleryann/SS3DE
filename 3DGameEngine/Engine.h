@@ -10,6 +10,7 @@
 class Camera;
 class GameObject;
 class LightComponent;
+class Skybox;
 
 class Engine
 {
@@ -32,6 +33,7 @@ private :
 	std::vector<GameObject*> gameObjects;
 	GLuint VertexArrayID;
 	std::vector<LightComponent*> m_lightsList;
+	Skybox * m_skybox;
 
 };
 #endif

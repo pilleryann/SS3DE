@@ -130,6 +130,7 @@
     <ClInclude Include="BasicMaterialTest.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="CubeMapTexture.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsUtils.h" />
@@ -143,6 +144,9 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="SimpleTextureLoader.h" />
+    <ClInclude Include="Skybox.h" />
+    <ClInclude Include="SkyboxMaterial.h" />
+    <ClInclude Include="TextureBase.h" />
     <ClInclude Include="TextureEngine3D.h" />
     <ClInclude Include="ToonMaterial.h" />
     <ClInclude Include="Transform3D.h" />
@@ -153,6 +157,7 @@
     <ClCompile Include="BasicMaterialTest.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="CubeMapTexture.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsUtils.cpp" />
@@ -165,6 +170,9 @@
     <ClCompile Include="Render3D.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SimpleTextureLoader.cpp" />
+    <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="SkyboxMaterial.cpp" />
+    <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="TextureEngine3D.cpp" />
     <ClCompile Include="ToonMaterial.cpp" />
     <ClCompile Include="Transform3D.cpp" />

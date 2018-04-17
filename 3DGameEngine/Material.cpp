@@ -32,11 +32,13 @@ Material::Material(GameObject * gameObject,std::string vertexShaderPath,std::str
 	m_gameObject = gameObject;
 
 	std::vector<LightComponent*> * lightsList = m_gameObject->GetEngine()->getLightsInScene();
-
-	LightComponent* light = lightsList->at(0);
-	lightPosition = light->getPosition();
-	lightPower = light->getLightPower();
-	lightColor = light->getLightColor();
+	if (lightsList->size() != 0)
+	{
+		LightComponent* light = lightsList->at(0);
+		lightPosition = light->getPosition();
+		lightPower = light->getLightPower();
+		lightColor = light->getLightColor();
+	}
 
 
 }

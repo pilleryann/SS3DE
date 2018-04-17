@@ -13,7 +13,7 @@ class Render3D :
 {
 public:
 	Render3D(GameObject * gameObject, std::string path);
-	Render3D(GameObject * gameObject,Mesh * mesh, Material * material);
+	Render3D(GameObject * gameObject,Mesh * mesh, Material * material,bool isNoDepthMode=false);
 	~Render3D();
 
 
@@ -25,6 +25,7 @@ public:
 private:
 	Material * m_material;
 	Mesh * m_mesh;
+	bool m_isNoDepthMode;
 
 //	GLuint cas
 };

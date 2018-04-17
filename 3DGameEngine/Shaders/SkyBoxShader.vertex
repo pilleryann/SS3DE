@@ -1,0 +1,31 @@
+#version 450 core
+layout(location=0) in vec3 vertexPosition_modelspace;
+
+//Recupere le layer pour les normals maps
+layout(location=1) in vec3 vertexNormal_modelspace;
+
+//Recupere le layer définit dans le "glVertexAttribPointer" defini a 1 
+layout(location=2) in vec2 vertexUV;
+
+layout(location=4) in vec3 vertexTangent_modelspace;
+
+layout(location=5) in vec3 vertexBitangent_modelspace;
+
+out vec3 TexCoords;
+
+
+
+// Model Projection View
+uniform mat4 MVP;
+
+
+
+
+
+
+
+void main(){
+	TexCoords = vertexPosition_modelspace;
+	gl_Position = MVP * vec4(vertexPosition_modelspace,1.0);
+
+}

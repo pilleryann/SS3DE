@@ -7,6 +7,7 @@
 #include "Transform3D.h"
 #include "Camera.h"
 #include "ObjectMovement.h"
+#include "Skybox.h"
 
 #include "LightComponent.h"
 
@@ -14,6 +15,8 @@
 #include "Mesh.h"
 
 #include <SFML/Graphics.hpp>
+
+
 
 
 int main(void) {
@@ -104,6 +107,9 @@ int Engine::Init()
 
 int Engine::CreateScene()
 {
+	m_skybox = new Skybox(this);
+	gameObjects.push_back((GameObject*)m_skybox);
+
 	GameObject * cameraGo = new GameObject(this,"Main Camera");
 	Camera * camera = new Camera(cameraGo,glm::vec2(800,600));
 	cameraGo->AddComponent(camera);

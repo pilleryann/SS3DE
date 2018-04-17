@@ -1,12 +1,9 @@
 #pragma once
 #ifndef TEXTURE_ENGINE_3D
 #define TEXTURE_ENGINE_3D
-#include <gl\glew.h>
-#include <string>
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#include "TextureBase.h"
 
-class TextureEngine3D
+class TextureEngine3D : TextureBase
 {
 public:
 	TextureEngine3D(std::string path,bool isDDSTexture=false);
@@ -15,7 +12,6 @@ public:
 	GLuint GetTexureID();
 
 private :
-	GLuint texture_ID;
 	GLuint loadPng(std::string pngPath);
 	GLuint loadDDS(const char * imagepath);
 	GLuint loadImage(const std::string imagePath);
