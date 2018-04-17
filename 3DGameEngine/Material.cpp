@@ -47,6 +47,7 @@ Material::~Material()
 
 void Material::InitMaterial()
 {
+	glUseProgram(shaderID);
 	printf("Init Material basis \n");
 
 	//Init View part 

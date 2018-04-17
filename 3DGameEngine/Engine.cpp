@@ -93,7 +93,7 @@ int Engine::Init()
 
 	//--- Partie Object ----
 
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.4f, 0.0f, 0.0f, 0.0f);
 
 	// chargement des ressources, initialisation des états OpenGL, ...
 
@@ -138,10 +138,12 @@ int Engine::CreateScene()
 	gameObjects.push_back(go);
 	
 	camera->LookAt(go->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
+
+
 	//camera->LookAt(glm::vec3(0,0,0), glm::vec3(0, 3, 0));
-	/*
+	
 	GameObject * go3 = new GameObject(this, "Third object");
-	BasicMaterialTest * mat3 = new BasicMaterialTest(go3, "Datas/StoneWallTextures/StoneWallCOLOR.png", "Datas/StoneWallTextures/StoneWallNORM.png");
+	BasicMaterialTest * mat3 = new BasicMaterialTest(go3, "Datas/DirtTexture/Dirt_004_COLOR.JPG", "Datas/DirtTexture/Dirt_004_NORM.jpg");
 	//	BasicMaterialTest * mat = new BasicMaterialTest(go,albedoPath, normalPath);
 	Mesh * mesh3 = new Mesh("Datas/Sphere3.obj");
 	Render3D * render3 = new Render3D(go3,mesh3,mat3);
@@ -150,7 +152,7 @@ int Engine::CreateScene()
 	go3->GetTransform()->SetPosition(glm::vec3(-2, 0, 1));
 	go3->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
 	gameObjects.push_back(go3);
-	*/
+
 
 	/*
 	GameObject * go = new GameObject(this, "First object");

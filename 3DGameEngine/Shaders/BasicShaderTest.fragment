@@ -56,13 +56,15 @@ void main() {
 		float cosAlpha = clamp( dot( E,R ), 0,1 );
 	
 		
-		vec3 ambiantMaterialColor = vec3(0.7,0.7,0.7) * materialDiffusColor;
+		vec3 ambiantMaterialColor = vec3(0.5,0.5,0.5) * materialDiffusColor;
 		vec3 MaterialSpecularColor = 0.3 * lightColor * LightPower * pow(cosAlpha,5) / (distance*distance);
 		color = MaterialSpecularColor + ambiantMaterialColor + materialDiffusColor * lightColor * LightPower  * cosTheta /(distance*distance);
+	
+	
 		//color = MaterialSpecularColor + ambiantMaterialColor + vec3(0.2,0.2,0.2) * lightColor * LightPower  * cosTheta /(distance*distance);
 		// color = vec3(1,0,0);
 		//color = Normal_cameraspace;
-
-		
+	//	color = materialDiffusColor;
+	//	color = texture( NormalTextureSampler,vec2(UV.x,-UV.y) ).rgb;
 
 }

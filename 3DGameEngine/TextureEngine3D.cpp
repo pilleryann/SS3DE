@@ -138,11 +138,14 @@ GLuint TextureEngine3D::loadImage(const std::string imagePath)
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	// Give the image to OpenGL
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageSize.x, imageSize.y, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageSize.x, imageSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glGenerateMipmap(GL_TEXTURE_2D);
+
+	//Unbing texture 
+	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	return textureID;
 }
