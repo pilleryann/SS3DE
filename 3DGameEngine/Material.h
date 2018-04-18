@@ -29,7 +29,9 @@ protected :
 	GLuint matrixMVP_ID;
 	GLuint matrixM_ID;
 	GLuint matrixV_ID;
+	GLuint matrixP_ID;
 	GLuint matrixMV3x3_ID;
+	
 
 
 	//Light 

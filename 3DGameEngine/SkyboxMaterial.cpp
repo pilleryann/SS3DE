@@ -24,6 +24,8 @@ void SkyboxMaterial::SetMaterialToRender()
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_skyboxTexture->GetTexureID());
 	glUniform1i(m_textureID,/*GL_TEXTURE_2D*/0);//Le bind ici doit se faire avec l'unité de texture
 
+	
+
 	UpdateCameraTransform();
 
 
@@ -32,5 +34,5 @@ void SkyboxMaterial::SetMaterialToRender()
 void SkyboxMaterial::InitMaterialIntern()
 {
 
-	glGetUniformLocation(shaderID, "skybox");
+	m_textureID = glGetUniformLocation(shaderID, "skybox");
 }

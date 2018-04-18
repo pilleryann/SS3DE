@@ -9,7 +9,7 @@ public:
 	TextureEngine3D(std::string path,bool isDDSTexture=false);
 	~TextureEngine3D();
 
-	GLuint GetTexureID();
+	GLuint GetTexureID() override;
 
 private :
 	GLuint loadPng(std::string pngPath);

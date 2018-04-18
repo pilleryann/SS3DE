@@ -16,9 +16,12 @@ out vec3 TexCoords;
 
 
 // Model Projection View
+//uniform mat4 MVP;
+
+
 uniform mat4 MVP;
-
-
+uniform mat4 P;
+uniform mat4 V;
 
 
 
@@ -26,6 +29,7 @@ uniform mat4 MVP;
 
 void main(){
 	TexCoords = vertexPosition_modelspace;
-	gl_Position = MVP * vec4(vertexPosition_modelspace,1.0);
-
+	//gl_Position = MVP * vec4(vertexPosition_modelspace,1.0);
+	mat4 V3x3 = mat4(mat3(V));
+	gl_Position = P * V3x3 * vec4(vertexPosition_modelspace,1.0);
 }

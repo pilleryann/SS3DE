@@ -61,6 +61,7 @@ void Material::InitMaterial()
 
 	matrixM_ID = glGetUniformLocation(shaderID, "M");
 	matrixV_ID = glGetUniformLocation(shaderID, "V");
+	matrixP_ID = glGetUniformLocation(shaderID, "P");
 
 	matrixMV3x3_ID = glGetUniformLocation(shaderID, "matrixMV3x3");
 
@@ -97,6 +98,7 @@ void Material::UpdateCameraTransform()
 	//Envoie divers informations pour les lumières dans le shader 
 	glUniformMatrix4fv(matrixM_ID, 1, GL_FALSE, &modelMatrix[0][0]);
 	glUniformMatrix4fv(matrixV_ID, 1, GL_FALSE, &viewMatrix[0][0]);
+	glUniformMatrix4fv(matrixP_ID, 1, GL_FALSE, &projectionMatrix[0][0]);
 	glUniformMatrix3fv(matrixMV3x3_ID, 1, GL_FALSE, &modelView3x3[0][0]);
 	glUniform3fv(lightWorldPosition_ID, 1, &lightPosition[0]);
 	glUniform3fv(lightColor_ID, 1, &lightColor[0]);
