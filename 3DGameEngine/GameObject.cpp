@@ -6,7 +6,6 @@
 
 
 
-
 GameObject::GameObject(Engine * engine,std::string name)
 {
 	//m_transform = Transform3D(this);
@@ -78,9 +77,10 @@ void GameObject::AddComponent(Component * component)
 	if (transfromTest !=NULL) {
 		return;
 	}
-
+	
 	m_components.push_back(component);
 }
+
 
 
 
