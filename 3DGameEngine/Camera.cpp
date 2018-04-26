@@ -97,13 +97,13 @@ glm::mat4 Camera::GetTransformViewProjection()
 
 
 	glm::mat4 View = rotation * translate ;*/
-	glm::mat4 Model = glm::mat4(1.0f);
+//	glm::mat4 Model = glm::mat4(1.0f);
 
 	//S'applique dans l'orde Model puis View puis Projection
-	glm::mat4 mvp = Projection * m_viewMatrix * Model;
+	//glm::mat4 mvp = Projection * m_viewMatrix * Model;
 
 
-	return mvp;//Retourne une copie de la matrice 
+	return Projection;//Retourne une copie de la matrice 
 }
 
 glm::mat4 Camera::GetView()

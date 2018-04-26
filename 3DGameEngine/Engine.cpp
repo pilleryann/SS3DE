@@ -92,11 +92,11 @@ int Engine::Init()
 
 	//Partie enlever backface 
 	// Cull triangles which normal is not towards the camera
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 
 	//--- Partie Object ----
 
-	glClearColor(0.4f, 0.0f, 0.0f, 0.0f);
+	//glClearColor(0.4f, 0.0f, 0.0f, 0.0f);
 
 	// chargement des ressources, initialisation des états OpenGL, ...
 
@@ -113,25 +113,22 @@ int Engine::CreateScene()
 	GameObject * cameraGo = new GameObject(this,"Main Camera");
 	Camera * camera = new Camera(cameraGo,glm::vec2(800,600),0.1f,1000.0f,60.0f);
 	cameraGo->AddComponent(camera);
-	cameraGo->GetTransform()->SetPosition(glm::vec3(0, 0, 3));
+	cameraGo->GetTransform()->SetPosition(glm::vec3(0, 0, 10));
 	cameraGo->GetTransform()->SetRotation(glm::vec3(0, 0,0));
 	
 	gameObjects.push_back(cameraGo);
 
-
+	
 	GameObject * lightObject = new GameObject(this, "Point light");
 	LightComponent * lightComponent = new LightComponent(lightObject, glm::vec3(2, 2,1), 10, glm::vec3(1, 1, 1));
 	lightObject->AddComponent(lightComponent);
-	/*BasicMaterialTest * mat2 = new BasicMaterialTest(lightObject, "Datas/DirtTexture/Dirt_004_COLOR.JPG", "Datas/DirtTexture/Dirt_004_NORM.jpg");
-	Mesh * mesh2 = new Mesh("Datas/Sphere3.obj");
-	Render3D * render2 = new Render3D(lightObject, mesh2, mat2);
-	lightObject->AddComponent(render2);*/
 	gameObjects.push_back(lightObject);
+
+	//camera->LookAt(glm::vec3(1,0.0f,0), glm::vec3(0, 1,0));
 
 	
 	GameObject * go = new GameObject(this, "First object");
 	BasicMaterialTest * mat = new BasicMaterialTest(go, "Datas/StoneWallTextures/StoneWallCOLOR.png", "Datas/StoneWallTextures/StoneWallNORM.png");
-//	BasicMaterialTest * mat = new BasicMaterialTest(go,albedoPath, normalPath);
 	Mesh * mesh = new Mesh("Datas/Sphere3.obj");
 	Render3D * render = new Render3D(go,mesh,mat);
 	go->AddComponent(render);
@@ -143,14 +140,13 @@ int Engine::CreateScene()
 
 	gameObjects.push_back(go);
 	
-	camera->LookAt(go->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
-
+//	camera->LookAt(go->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
+	
 
 	//camera->LookAt(glm::vec3(0,0,0), glm::vec3(0, 3, 0));
 	
 	GameObject * go3 = new GameObject(this, "Third object");
 	BasicMaterialTest * mat3 = new BasicMaterialTest(go3, "Datas/DirtTexture/Dirt_004_COLOR.JPG", "Datas/DirtTexture/Dirt_004_NORM.jpg");
-	//	BasicMaterialTest * mat = new BasicMaterialTest(go,albedoPath, normalPath);
 	Mesh * mesh3 = new Mesh("Datas/Sphere3.obj");
 	Render3D * render3 = new Render3D(go3,mesh3,mat3);
 	go3->AddComponent(render3);
@@ -159,35 +155,8 @@ int Engine::CreateScene()
 	go3->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
 	gameObjects.push_back(go3);
 
-
-	/*
-	GameObject * go = new GameObject(this, "First object");
-	Render3D * render = new Render3D(go);
-	go->AddComponent(render);
-	go->GetTransform()->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
-	go->GetTransform()->SetPosition(glm::vec3(5, 1, 1));
-	go->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
-	gameObjects.push_back(go);
-
+	camera->LookAt(glm::vec3(1,0,1), glm::vec3(0, 1, 0));
 	
-	GameObject * go2 = new GameObject(this, "Second object");
-	Render3D * render2 = new Render3D(go2);
-	go2->AddComponent(render2);
-	go2->GetTransform()->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
-	go2->GetTransform()->SetPosition(glm::vec3(0, 0, 0));
-	go2->GetTransform()->SetRotation(glm::vec3(90, 0, 0));
-	gameObjects.push_back(go2);
-
-	GameObject * go3 = new GameObject(this, "Third object");
-	Render3D * render3 = new Render3D(go3);
-	go3->AddComponent(render3);
-	go3->GetTransform()->SetScale(glm::vec3(3.0f, 3.0f, 3.0f));
-	go3->GetTransform()->SetPosition(glm::vec3(2, 2, 0));
-	go3->GetTransform()->SetRotation(glm::vec3(-60, 180, 0));
-	gameObjects.push_back(go3);
-
-	camera->LookAt(go3->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
-	*/
 	for (int i = 0;i< gameObjects.size(); i++) {
 		gameObjects[i]->Start();
 	}

@@ -31,6 +31,7 @@ protected :
 	GLuint matrixV_ID;
 	GLuint matrixP_ID;
 	GLuint matrixMV3x3_ID;
+	GLuint viewForKybox_ID;
 	
 
 

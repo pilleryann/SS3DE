@@ -65,6 +65,8 @@ void Material::InitMaterial()
 
 	matrixMV3x3_ID = glGetUniformLocation(shaderID, "matrixMV3x3");
 
+	viewForKybox_ID = glGetUniformLocation(shaderID, "skyboxView");
+
 	lightWorldPosition_ID = glGetUniformLocation(shaderID, "LightPosition_worldspace");
 	lightColor_ID = glGetUniformLocation(shaderID, "lightColor");
 	lightPower_ID = glGetUniformLocation(shaderID, "LightPower");
@@ -85,7 +87,7 @@ void Material::UpdateCameraTransform()
 	glm::mat4 modelViewMatrix = viewMatrix * modelMatrix;
 	glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
 	//glm::mat4 modelMatrix = CalculateModelMatrix(glm::vec4(0, 1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
-
+	glm::mat4 skyboxView = glm::mat4(glm::mat3(viewMatrix));
 	//mvp = mvp * modelMatrix;
 
 	glm::mat3 modelView3x3 = glm::mat3(modelViewMatrix);
@@ -100,6 +102,7 @@ void Material::UpdateCameraTransform()
 	glUniformMatrix4fv(matrixV_ID, 1, GL_FALSE, &viewMatrix[0][0]);
 	glUniformMatrix4fv(matrixP_ID, 1, GL_FALSE, &projectionMatrix[0][0]);
 	glUniformMatrix3fv(matrixMV3x3_ID, 1, GL_FALSE, &modelView3x3[0][0]);
+	glUniformMatrix4fv(viewForKybox_ID, 1, GL_FALSE, &skyboxView[0][0]);
 	glUniform3fv(lightWorldPosition_ID, 1, &lightPosition[0]);
 	glUniform3fv(lightColor_ID, 1, &lightColor[0]);
 	glUniform1f(lightPower_ID, lightPower);
