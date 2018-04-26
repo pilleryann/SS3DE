@@ -38,11 +38,11 @@ void Camera::LookAt(glm::vec3 targetPosition,glm::vec3 axisRotation)
 //	glm::vec3 direction = targetPosition - transformPosition;
 	//glm::normalize(direction);
 
-	m_viewMatrix = glm::lookAt(transformPosition, targetPosition, axisRotation);
+	//m_viewMatrix = glm::lookAt(transformPosition, targetPosition, axisRotation);
 
 	
-
-	/*
+	 glm::mat4 matLookAt = glm::lookAt(transformPosition, targetPosition, axisRotation);
+	
 	
 	glm::quat orientation = glm::toQuat(matLookAt);
 	orientation = glm::conjugate(orientation);
@@ -54,7 +54,7 @@ void Camera::LookAt(glm::vec3 targetPosition,glm::vec3 axisRotation)
 
 
 	m_gameObject->GetTransform()->SetRotation(newRotation);
-	*/
+	
 }
 
 void Camera::SetScreenSize(float width, float height)
@@ -108,7 +108,14 @@ glm::mat4 Camera::GetTransformViewProjection()
 
 glm::mat4 Camera::GetView()
 {
-	return m_viewMatrix;
+	
+	glm::mat4 translate = glm::translate( - m_gameObject->GetTransform()->GetPosition());
+	glm::vec3 rotationEuleur = m_gameObject->GetTransform()->GeRotation();
+	glm::mat4 rotate = glm::eulerAngleXYZ(rotationEuleur.x,rotationEuleur.y,rotationEuleur.z);
+	
+
+
+	return rotate * translate ;
 }
 
 

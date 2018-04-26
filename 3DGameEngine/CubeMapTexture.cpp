@@ -10,7 +10,7 @@ CubeMapTexture::CubeMapTexture() : CubeMapTexture("Datas/SkyBox/right.jpg", "Dat
 
 CubeMapTexture::CubeMapTexture(std::string rightPath, std::string leftPath, std::string topPath, std::string bottomPath, std::string frontPath, std::string backPath)
 {
-	std::string faces[6] = { rightPath,leftPath,topPath,bottomPath,frontPath,backPath};
+	std::string faces[6] = { rightPath,leftPath,topPath,bottomPath,backPath,frontPath };
 
 	glGenTextures(1, &texture_ID);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture_ID);

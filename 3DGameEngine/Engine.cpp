@@ -92,7 +92,7 @@ int Engine::Init()
 
 	//Partie enlever backface 
 	// Cull triangles which normal is not towards the camera
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 
 	//--- Partie Object ----
 
@@ -114,8 +114,9 @@ int Engine::CreateScene()
 	Camera * camera = new Camera(cameraGo,glm::vec2(800,600),0.1f,1000.0f,60.0f);
 	cameraGo->AddComponent(camera);
 	cameraGo->GetTransform()->SetPosition(glm::vec3(0, 0, 10));
-	cameraGo->GetTransform()->SetRotation(glm::vec3(0, 0,0));
-	
+	cameraGo->GetTransform()->SetRotation(glm::vec3(0,0,0));
+	ObjectMovement * objMovCam = new ObjectMovement(cameraGo);
+	cameraGo->AddComponent(objMovCam);
 	gameObjects.push_back(cameraGo);
 
 	
@@ -133,14 +134,13 @@ int Engine::CreateScene()
 	Render3D * render = new Render3D(go,mesh,mat);
 	go->AddComponent(render);
 	go->GetTransform()->SetScale(glm::vec3(1, 1,1));
-	go->GetTransform()->SetPosition(glm::vec3(0, 0,0));
+	go->GetTransform()->SetPosition(glm::vec3(0, 0,20));
 	go->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
-	ObjectMovement * objMov = new ObjectMovement(go);
-	go->AddComponent(objMov);
+	
 
 	gameObjects.push_back(go);
 	
-//	camera->LookAt(go->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
+	//camera->LookAt(go->GetTransform()->GetPosition(), glm::vec3(0, 1, 0));
 	
 
 	//camera->LookAt(glm::vec3(0,0,0), glm::vec3(0, 3, 0));
@@ -153,9 +153,13 @@ int Engine::CreateScene()
 	go3->GetTransform()->SetScale(glm::vec3(2,2,2));
 	go3->GetTransform()->SetPosition(glm::vec3(-2, 0, 1));
 	go3->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
+
+	/*ObjectMovement * objMov = new ObjectMovement(go3);
+	go3->AddComponent(objMov);*/
+
 	gameObjects.push_back(go3);
 
-	camera->LookAt(glm::vec3(1,0,1), glm::vec3(0, 1, 0));
+	//camera->LookAt(glm::vec3(1,0,1), glm::vec3(0, 1, 0));
 	
 	for (int i = 0;i< gameObjects.size(); i++) {
 		gameObjects[i]->Start();
