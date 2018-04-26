@@ -8,6 +8,7 @@
 #include "Engine.h"
 #include "LightComponent.h"
 
+//BasicMaterialTest::BasicMaterialTest(GameObject * gameObject) :Material(gameObject, "Shaders/BasicShaderTest.vertex", "Shaders/BasicShaderTest.fragment")
 BasicMaterialTest::BasicMaterialTest(GameObject * gameObject):Material(gameObject,"Shaders/BasicShaderTest.vertex","Shaders/BasicShaderTest.fragment")
 {
 	printf("Basic Material constructor. \n");
@@ -59,6 +60,11 @@ void BasicMaterialTest::SetMaterialToRender()
 	glUniform1i(normalMapID, /*GL_TEXTURE_2D*/1); // //Le bind ici doit se faire avec l'unité de texture
 
 
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_reflexion->GetTexureID());
+	glUniform1i(reflexionID, /*GL_TEXTURE_2D*/2); // //Le bind ici doit se faire avec l'unité de texture
+
+
 	//Applique le model matrix, le view matrix et enifin la projetction matrix. Le tout dans l'ordre. 
 	//Atttention : Avec les multiplication cela inverse l'ordre des application  :
 	// projectionMatix*viewMatrix*modelMatrix
@@ -86,6 +92,9 @@ void BasicMaterialTest::InitMaterialIntern()
 
 	normalMapID = glGetUniformLocation(shaderID, "NormalTextureSampler");
 	
+	m_reflexion = new CubeMapTexture();
+
+	reflexionID = glGetUniformLocation(shaderID, "reflexion");
 	
 //	glUniform1i(TextureID, m_texture->GetTexureID());
 	

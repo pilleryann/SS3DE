@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="BasicMaterialTest.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraControl.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CubeMapTexture.h" />
     <ClInclude Include="Engine.h" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="BasicMaterialTest.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraControl.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="CubeMapTexture.cpp" />
     <ClCompile Include="Engine.cpp" />

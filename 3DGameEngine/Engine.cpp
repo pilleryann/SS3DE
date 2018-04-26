@@ -111,7 +111,7 @@ int Engine::CreateScene()
 	gameObjects.push_back((GameObject*)m_skybox);
 
 	GameObject * cameraGo = new GameObject(this,"Main Camera");
-	Camera * camera = new Camera(cameraGo,glm::vec2(800,600));
+	Camera * camera = new Camera(cameraGo,glm::vec2(800,600),0.1f,1000.0f,60.0f);
 	cameraGo->AddComponent(camera);
 	cameraGo->GetTransform()->SetPosition(glm::vec3(0, 0, 3));
 	cameraGo->GetTransform()->SetRotation(glm::vec3(0, 0,0));

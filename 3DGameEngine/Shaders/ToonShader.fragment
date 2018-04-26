@@ -24,7 +24,6 @@ uniform float LightPower;
 // Values that stay constant for the whole mesh.
 uniform sampler2D myTextureSampler;
 uniform sampler2D NormalTextureSampler;
-uniform samplerCube reflexion;
 
 void main() {
 
@@ -34,8 +33,8 @@ void main() {
 		vec3 n = normalize(texture( NormalTextureSampler,vec2(UV.x,-UV.y) ).rgb*2.0 - 1.0);//Normal tangenteSpace
 		vec3 l = normalize(LightDirection_tangentspace);
 
-	//	vec3 n = normalize(Normal_cameraspace);
-	//	vec3 l = normalize(LightDirection_cameraspace);
+		//vec3 n = normalize(Normal_cameraspace);
+		//vec3 l = normalize(LightDirection_cameraspace);
 
 		// Cosine of the angle between the normal and the light direction,
 		// clamped above 0
@@ -57,20 +56,22 @@ void main() {
 		float cosAlpha = clamp( dot( E,R ), 0,1 );
 	
 		
+		vec3 borders = vec3(1,1,1) * (1-step((clamp(dot(n,vec3(0,0,1)),0.2,1.0)),0.6));
 		
-		vec3 R2 = reflect(normalize(Position_worldspace.xyz),n);
-		vec3 colorReflection = texture(reflexion,R2).rgb;
-		vec3 ambiantMaterialColor = vec3(0.5,0.5,0.5) * materialDiffusColor;
-		vec3 MaterialSpecularColor = 0.3 * lightColor * LightPower * pow(cosAlpha,5) / (distance*distance);
-		color = MaterialSpecularColor + ambiantMaterialColor + colorReflection * 0.6  +materialDiffusColor * lightColor * LightPower  * cosTheta /(distance*distance);
-	
+		vec3 ambiantMaterialColor = vec3(0.1,0.1,0.1) * materialDiffusColor;
+		float speculaEffectValue =  ceil(LightPower * pow(cosAlpha,5) / (distance*distance));
+		vec3 MaterialSpecularColor = 0.3 * lightColor *speculaEffectValue;
+		float shadowClampedValue = ceil(cosTheta /(distance*distance))/10;
+		vec3 shadow = lightColor * LightPower  * shadowClampedValue;
+		color = (MaterialSpecularColor + ambiantMaterialColor + materialDiffusColor * shadow )* borders;
+		
+		//color = vec3(1,1,1) * dot( Normal_cameraspace,EyeDirection_cameraspace );
+		
 	
 		//color = MaterialSpecularColor + ambiantMaterialColor + vec3(0.2,0.2,0.2) * lightColor * LightPower  * cosTheta /(distance*distance);
 		// color = vec3(1,0,0);
 		//color = Normal_cameraspace;
 	//	color = materialDiffusColor;
 	//	color = texture( NormalTextureSampler,vec2(UV.x,-UV.y) ).rgb;
-	
-
 
 }

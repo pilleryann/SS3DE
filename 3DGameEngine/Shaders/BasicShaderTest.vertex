@@ -54,7 +54,7 @@ void main(){
 	//---- Calcule des lumieres -------------
 
 	// Position du vertex dans le monde
-	// Position_worldspace = ( M * vec4(vertexPosition_modelspace,1)).xyzw;
+	 Position_worldspace = ( M * vec4(vertexPosition_modelspace,1)).xyzw;
 
 	//Creation du vecteur venant du vertex a la camera, dans l'espace camera.
 	// Dans lespace de la camera, la camera est à la position (0,0,0)
