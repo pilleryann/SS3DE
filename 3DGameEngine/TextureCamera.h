@@ -33,6 +33,7 @@ private:
 	void BindTextureToFrameBuffer();
 	void CreateFrameBuffer();
 	void CreateRenderBufferObject();
+	void completInitTexture();
 
 
 };

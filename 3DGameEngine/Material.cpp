@@ -30,7 +30,8 @@ Material::Material(GameObject * gameObject,std::string vertexShaderPath,std::str
 {
 	LoadShader(vertexShaderPath, fragmentShaderPath);
 	m_gameObject = gameObject;
-
+	if (m_gameObject == nullptr)
+		return;
 	std::vector<LightComponent*> * lightsList = m_gameObject->GetEngine()->getLightsInScene();
 	if (lightsList->size() != 0)
 	{

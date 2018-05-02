@@ -16,6 +16,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "TextureCamera.h"
+#include "PostProcessingMaterial.h"
 
 
 
@@ -27,6 +29,7 @@ int main(void) {
 
 	engine.Init();
 	engine.CreateScene();
+	engine.initPostProcessingRendering();
 	engine.Run();
 	engine.End();
 	return 0;
@@ -205,10 +208,9 @@ int Engine::Run()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// dessin...
-		for (int i = 0; i<gameObjects.size(); i++) {
-			gameObjects[i]->Render();
-		}
-
+		firstPassRendering();
+		secondPassRenderingPostProcessing();
+	//	sceneRendering();
 		// termine la trame courante (en interne, échange les deux tampons de rendu)
 		window->display();
 	}
@@ -247,5 +249,95 @@ int Engine::End()
 	std::vector<LightComponent*>* Engine::getLightsInScene()
 	{
 		return &m_lightsList;
+	}
+
+	void Engine::initPostProcessingRendering()
+	{
+
+		m_textureCamera = new TextureCamera(800, 600);
+		m_postProcessingMaterial = new PostProcessingMaterial(nullptr, m_textureCamera);
+		m_meshPlanPostProcessing = new Mesh("Datas/postProcessingPlan.obj");
+		m_meshPlanPostProcessing->Init();
+		m_postProcessingMaterial->InitMaterial();
+	}
+
+	void Engine::sceneRendering()
+	{
+		for (int i = 0; i<gameObjects.size(); i++) {
+			gameObjects[i]->Render();
+		}
+	}
+
+	void Engine::firstPassRendering()
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_textureCamera->GetFrameBufferID());
+		glClearColor(1.0f,0.0f, 0.0f,1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
+		sceneRendering();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	}
+
+	void Engine::secondPassRenderingPostProcessing()
+	{
+		
+	//	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
+		m_postProcessingMaterial->SetMaterialToRender();
+		
+
+		//fprintf(stdout, "Draw!\n");
+		//On applique l'ID d'attribut de vertex à 0. Dans le shader on peur le récupérer avec "location".
+		glEnableVertexAttribArray(0);//Ouverture edtion buffer sur l'attribut ID = 0. On décide que cela correspond au couleur des vertex.
+		glBindBuffer(GL_ARRAY_BUFFER, m_meshPlanPostProcessing->GetVertexArrayID());//Choix du buffer
+		glVertexAttribPointer(
+			0, // Attribuer un layer ==> pour shader. 0 est un choix arbitraire
+			3, // size
+			GL_FLOAT, //type
+			GL_FALSE, // normalized 
+			0, // stride
+			(void*)0 //Array buffer offset
+		);
+
+
+		//--------- Ajouter l'attribut des couleurs sur les vertex-----------
+
+
+		glEnableVertexAttribArray(1);//Ouverture edtion buffer sur l'attribut ID = 0. On décide que cela correspond au couleur des vertex.
+		glBindBuffer(GL_ARRAY_BUFFER, m_meshPlanPostProcessing->GetNormalsArrayID());//Choix du buffer
+		glVertexAttribPointer(
+			1, // Attribuer un layer ==> pour shader. 0 est un choix arbitraire
+			3, // size
+			GL_FLOAT, //type
+			GL_FALSE, // normalized 
+			0, // stride
+			(void*)0 //Array buffer offset
+		);
+
+
+		// Ajouter l'attribut UV
+		glEnableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, m_meshPlanPostProcessing->GetUVArrayID());
+		glVertexAttribPointer(
+			2,
+			2,//Size ==> coordonnees 2 dimensions pour les UV 
+			GL_FLOAT,
+			GL_FALSE,
+			0,
+			(void*)0
+		);
+
+	//	glDrawArrays(GL_TRIANGLES, 0, m_meshPlanPostProcessing->GetVertexArraySize());
+		glDrawArrays(GL_TRIANGLES, 0, m_meshPlanPostProcessing->GetVertexArraySize());
+
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
+
+		glBindTexture(GL_TEXTURE_2D,0);
 	}
 

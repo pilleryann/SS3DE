@@ -3,7 +3,7 @@
 
 
 PostProcessingMaterial::PostProcessingMaterial(GameObject * gameObject,TextureCamera * textureCamera) :
-	Material( gameObject,"Shaders/PostProcessingShader.vertex", "Shaders/PostProcessingShader.fragment")
+	Material( gameObject,"Shaders/PostProcessShader.vertex", "Shaders/PostProcessShader.fragment")
 {
 	m_textureCamera = textureCamera;
 }
@@ -25,7 +25,7 @@ void PostProcessingMaterial::SetMaterialToRender()
 	glBindTexture(GL_TEXTURE_2D, m_textureCamera->GetTexureID());
 	glUniform1i(m_textureCameraUniform,/*GL_TEXTURE_2D*/0);//Le bind ici doit se faire avec l'unité de texture
 
-	glBindTexture(GL_TEXTURE_2D,0);
+	//glBindTexture(GL_TEXTURE_2D,0);
 
 }
 

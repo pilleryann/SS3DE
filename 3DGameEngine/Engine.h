@@ -11,6 +11,9 @@ class Camera;
 class GameObject;
 class LightComponent;
 class Skybox;
+class TextureCamera;
+class PostProcessingMaterial;
+class Mesh;
 
 class Engine
 {
@@ -22,6 +25,7 @@ public:
 	int CreateScene();
 	int Run();
 	int End();
+	void initPostProcessingRendering();
 	Camera * GetMainCamera();
 	void SetMainCamera(Camera * camera);
 	std::vector<LightComponent*>* getLightsInScene();
@@ -34,6 +38,19 @@ private :
 	GLuint VertexArrayID;
 	std::vector<LightComponent*> m_lightsList;
 	Skybox * m_skybox;
+
+	//-- Post processing part ---
+
+	PostProcessingMaterial * m_postProcessingMaterial;
+	TextureCamera * m_textureCamera;
+	Mesh * m_meshPlanPostProcessing;
+
+	
+
+	void sceneRendering();
+
+	void firstPassRendering();
+	void secondPassRenderingPostProcessing();
 
 };
 #endif
