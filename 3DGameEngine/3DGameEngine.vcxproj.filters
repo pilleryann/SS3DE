@@ -97,6 +97,12 @@
     <ClInclude Include="CameraControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextureCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessingMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -172,6 +178,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CameraControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessingMaterial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

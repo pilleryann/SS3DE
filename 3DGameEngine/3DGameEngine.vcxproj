@@ -141,6 +141,7 @@
     <ClInclude Include="ObjectMovement.h" />
     <ClInclude Include="PBRMaterial.h" />
     <ClInclude Include="PhongMaterial.h" />
+    <ClInclude Include="PostProcessingMaterial.h" />
     <ClInclude Include="Render3D.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShaderLoader.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SkyboxMaterial.h" />
     <ClInclude Include="TextureBase.h" />
+    <ClInclude Include="TextureCamera.h" />
     <ClInclude Include="TextureEngine3D.h" />
     <ClInclude Include="ToonMaterial.h" />
     <ClInclude Include="Transform3D.h" />
@@ -169,12 +171,14 @@
     <ClCompile Include="ObjectMovement.cpp" />
     <ClCompile Include="PBRMaterial.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
+    <ClCompile Include="PostProcessingMaterial.cpp" />
     <ClCompile Include="Render3D.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SimpleTextureLoader.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SkyboxMaterial.cpp" />
     <ClCompile Include="TextureBase.cpp" />
+    <ClCompile Include="TextureCamera.cpp" />
     <ClCompile Include="TextureEngine3D.cpp" />
     <ClCompile Include="ToonMaterial.cpp" />
     <ClCompile Include="Transform3D.cpp" />
