@@ -52,7 +52,7 @@ void Camera::LookAt(glm::vec3 targetPosition,glm::vec3 axisRotation)
 	printf("Orientation  : (%f,%f,%f,%f)\n", orientation.x, orientation.y, orientation.z, orientation.w);
 	printf("NewRotation  : (%f,%f,%f)\n", newRotation.x, newRotation.y, newRotation.z);
 
-
+	//newRotation = -newRotation;
 	m_gameObject->GetTransform()->SetRotation(newRotation);
 	
 }
